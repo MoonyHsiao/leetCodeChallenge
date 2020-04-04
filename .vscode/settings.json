@@ -1,0 +1,8 @@
+{
+    "guides.normal.width": 3,
+    "guides.stack.color.light": "rgba(0, 0, 180, 1)",
+    "guides.stack.color.dark": "rgba(0, 255, 0, 1)",
+    "guides.normal.color.dark": "rgba(60, 60, 60, 1)",
+    "guides.active.color.dark": "rgba(255, 0, 0, 0.75)",
+    "guides.stack.style": "dotted"
+}
