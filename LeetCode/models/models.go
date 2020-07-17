@@ -1,6 +1,18 @@
 package models
 
-import "strconv"
+import (
+	"strconv"
+)
+
+const (
+	MinUint uint = 0
+
+	MaxUint = ^MinUint
+
+	MaxInt = int(MaxUint >> 1)
+
+	MinInt = ^MaxInt
+)
 
 type ListNode struct {
 	Val  int
@@ -25,6 +37,7 @@ func GenData(arr []int) *ListNode {
 	return head.Next
 }
 
+// RemoveIndex(nums, 0) 會有bugS
 func RemoveIndex(s []int, index int) []int {
 	s[index] = s[len(s)-1]
 	return s[:len(s)-1]
@@ -63,4 +76,15 @@ func (s intSlice) Less(i, j int) bool {
 
 func (s intSlice) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
+}
+
+func Min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func RemoveIndexV2(s []int, index int) []int {
+	return append(s[:index], s[index+1:]...)
 }
