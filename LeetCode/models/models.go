@@ -1,7 +1,9 @@
 package models
 
 import (
+	"fmt"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -87,4 +89,24 @@ func Min(a, b int) int {
 
 func RemoveIndexV2(s []int, index int) []int {
 	return append(s[:index], s[index+1:]...)
+}
+
+func GetIntSize(num int) int {
+	count := 1
+	for num/10 > 0 {
+		count++
+		num = num / 10
+	}
+	return count
+}
+
+func ReverseInts(input []int) []int {
+	if len(input) == 0 {
+		return input
+	}
+	return append(ReverseInts(input[1:]), input[0])
+}
+
+func ArrayToString(a []int, delim string) string {
+	return strings.Trim(strings.Replace(fmt.Sprint(a), " ", delim, -1), "[]")
 }

@@ -9,7 +9,7 @@
       "type": "go",
       "request": "launch",
       "mode": "auto",
-      "program": "${workspaceRoot}/MiddleOfTheLinkedList",
+      "program": "${workspaceRoot}/LeetCode",
       "env": {
         "GODEBUG": "netdns=go+2"
       },

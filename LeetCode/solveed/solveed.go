@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/lexhsiao135/ds-go/leetcode/models"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 )
 
 func mergeTwoLists(l1 *models.ListNode, l2 *models.ListNode) *models.ListNode {
@@ -257,4 +257,99 @@ func IsPalindrome(s string) bool {
 		back = s[backIndex]
 	}
 	return true
+}
+
+func MySqrt(x int) int {
+	if x == 0 {
+		return x
+	}
+	res := models.GetIntSize(x)
+	if res%2 == 0 {
+		res = res / 2
+	} else {
+		res = res/2 + 1
+	}
+	low := 1
+	high := 9
+	for i := 1; i < res; i++ {
+		low = low * 10
+		high = high*10 + 9
+	}
+
+	for low < high-1 {
+		mid := (low + high) / 2
+		if mid*mid < x {
+			low = mid
+		} else if mid*mid > x {
+			high = mid
+		} else {
+			return mid
+		}
+	}
+	return low
+}
+
+func PlusOne(digits []int) []int {
+
+	for i := len(digits) - 1; i >= 0; i-- {
+		if digits[i] != 9 {
+			digits[i]++
+			return digits
+		} else {
+			digits[i] = 0
+		}
+	}
+	digits = append([]int{1}, digits...)
+	return digits
+}
+
+func AddBinary(a string, b string) string {
+
+	count := 0
+	if len(a) >= len(b) {
+		count = len(a)
+	} else {
+		count = len(b)
+	}
+
+	formatStr := fmt.Sprintf("%v%v%v", "%0", count, "s")
+	fmta := fmt.Sprintf(formatStr, a)
+	fmtb := fmt.Sprintf(formatStr, b)
+
+	a_arr := make([]int, count)
+	b_arr := make([]int, count)
+	res_arr := make([]int, count)
+
+	for i := 0; i < count; i++ {
+		a, _ := strconv.Atoi(string(byte(fmta[count-1-i])))
+		a_arr[i] = a
+		b, _ := strconv.Atoi(string(byte(fmtb[count-1-i])))
+		b_arr[i] = b
+	}
+
+	a_arr = models.ReverseInts(a_arr)
+
+	b_arr = models.ReverseInts(b_arr)
+
+	isCarry := 0
+
+	for i := count - 1; i >= 0; i-- {
+		xor := a_arr[i] ^ b_arr[i] ^ isCarry
+		res_arr[i] = xor
+		// fmt.Printf("step%v,a_arr[i]:%v,b_arr[i]:%v,isCarry:%v,xor:%v,res_arr:%v\n", i, a_arr[i], b_arr[i], isCarry, xor, res_arr[i])
+		if (a_arr[i] + b_arr[i] + isCarry) > 1 {
+			isCarry = 1
+		} else {
+			isCarry = 0
+		}
+
+	}
+
+	if isCarry == 1 {
+		res_arr = append([]int{1}, res_arr...)
+	}
+
+	res := models.ArrayToString(res_arr, "")
+	return res
+
 }

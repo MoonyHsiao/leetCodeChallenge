@@ -1,0 +1,30 @@
+https://blog.csdn.net/haolexiao/article/details/53487436
+
+
+https://leetcode.com/problems/power-of-two/
+
+func main() {
+	n := 10
+//return n>0 && (n& (n-1))==0
+	a := (n & (n - 1)) // Bitwise operations
+	fmt.Printf("%v", a)
+
+    // 10->110
+// 9->101
+
+// 110
+// 101
+// 100 ->8
+}
+
+
+https://www.cnblogs.com/grandyang/p/4623394.html
+https://en.wikipedia.org/wiki/Bitwise_operations_in_C
+
+
+一天至少兩題 想30分鐘沒結果就去看答案 有些基礎知識還不夠 
+有點像還不知道高中的基礎知識 就想用國中學到的去解 這樣會有問題而且也很慢
+
+
+https://wizardforcel.gitbooks.io/the-art-of-programming-by-july/content/01.04.html
+
