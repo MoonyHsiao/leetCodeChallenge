@@ -110,3 +110,17 @@ func ReverseInts(input []int) []int {
 func ArrayToString(a []int, delim string) string {
 	return strings.Trim(strings.Replace(fmt.Sprint(a), " ", delim, -1), "[]")
 }
+
+func Max(x, y int) int {
+	if x < y {
+		return y
+	}
+	return x
+}
+
+func MinUint16(a, b uint16) uint16 {
+	if a < b {
+		return a
+	}
+	return b
+}

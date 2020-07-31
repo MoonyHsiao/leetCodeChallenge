@@ -7,7 +7,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
+	"github.com/lexhsiao135/ds-go/LeetCode/models/ListNode"
+	"github.com/lexhsiao135/ds-go/LeetCode/models/TreeNode"
+	"github.com/lexhsiao135/ds-go/leetcode/models"
 )
 
 func mergeTwoLists(l1 *models.ListNode, l2 *models.ListNode) *models.ListNode {
@@ -352,4 +354,58 @@ func AddBinary(a string, b string) string {
 	res := models.ArrayToString(res_arr, "")
 	return res
 
+}
+
+func DeleteDuplicates(head *ListNode.ListNode) *ListNode.ListNode {
+	if head == nil {
+		return head
+	}
+	first := head
+	for head.Next != nil {
+		if head.Val != head.Next.Val {
+			head = head.Next
+
+		} else {
+			head.Next = head.Next.Next
+		}
+	}
+	return first
+}
+
+//用PreOrderTraverse來解
+func IsSameTree(p *TreeNode.TreeNode, q *TreeNode.TreeNode) bool {
+
+	if p == nil && q == nil {
+		return true
+	}
+	if (p != nil && q == nil) || (p == nil && q != nil) {
+		return false
+	}
+
+	if p.Val != q.Val {
+		return false
+	}
+	return IsSameTree(p.Left, q.Left) && IsSameTree(p.Right, q.Right)
+}
+
+func MaxDepth(root *TreeNode.TreeNode) int {
+	return countDepth(root, 1)
+}
+
+func countDepth(root *TreeNode.TreeNode, count int) int {
+	if root == nil {
+		return 0
+	}
+	if root.Left == nil && root.Right != nil {
+		return countDepth(root.Right, count+1)
+	}
+
+	if root.Right == nil && root.Left != nil {
+		return countDepth(root.Left, count+1)
+	}
+
+	if root.Right != nil && root.Left != nil {
+		return models.Max(countDepth(root.Left, count+1), countDepth(root.Right, count+1))
+	}
+	return count
 }

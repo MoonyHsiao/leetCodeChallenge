@@ -1,4 +1,4 @@
-package TreeNode
+package treeNode
 
 import (
 	"fmt"
@@ -78,4 +78,13 @@ func printNode(val int) {
 		buffer.WriteString(" ")
 	}
 	fmt.Println(buffer.String())
+}
+
+func (n *TreeNode) PreOrderTraverse() {
+	if n == nil {
+		return
+	}
+	fmt.Printf("val:%v\n", n.Val)
+	n.Left.PreOrderTraverse()
+	n.Right.PreOrderTraverse()
 }
