@@ -3,9 +3,11 @@ package graphNode
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"sync"
 	"time"
 
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 	"github.com/cheekybits/genny/generic"
 )
 
@@ -123,10 +125,10 @@ func (g *ItemGraph) BFSTraverse(f func(*Node)) {
 
 type WeightGraph struct {
 	NumNodes int
-	Edges    [][]wEdge
+	Edges    [][]WEdge
 }
 
-type wEdge struct {
+type WEdge struct {
 	From   int
 	To     int
 	Weight int
@@ -136,16 +138,16 @@ type wEdge struct {
 func NewWeightGraph(n int) *WeightGraph {
 	return &WeightGraph{
 		NumNodes: n,
-		Edges:    make([][]wEdge, n),
+		Edges:    make([][]WEdge, n),
 	}
 }
 
 // AddEdge: Add an edge from u to v.
 func (g *WeightGraph) AddEdge(u, v, w int) {
-	g.Edges[u] = append(g.Edges[u], wEdge{From: u, To: v, Weight: w})
+	g.Edges[u] = append(g.Edges[u], WEdge{From: u, To: v, Weight: w})
 
 	// For undirected graph add edge from v to u.
-	// g.Edges[v] = append(g.Edges[v], Edge{From: v, To: u, Weight: w})
+	// g.Edges[v] = append(g.Edges[v], wEdge{From: v, To: u, Weight: w})
 }
 
 func (g *WeightGraph) AdjacentEdgesExample() {
@@ -162,4 +164,43 @@ func (g *WeightGraph) AdjacentEdgesExample() {
 			fmt.Printf("Edge: %d -> %d (%d)\n", e.From, e.To, e.Weight)
 		}
 	}
+}
+
+func (g *WeightGraph) GetMinEdge(s map[int]int) *WEdge {
+	//這裡應該先把所有的都排序 然後慢慢吐會比較好做
+	min := models.MaxInt
+	minEdge := WEdge{}
+	for _, adjacent := range g.Edges {
+		for _, e := range adjacent {
+			if s[e.From] != -1 && s[e.To] != -1 {
+				//等於找過了
+				continue
+			}
+			if min >= e.Weight {
+				min = e.Weight
+				minEdge = e
+			}
+			// fmt.Printf("Edge: %d -> %d (%d)\n", e.From, e.To, e.Weight)
+		}
+	}
+	// fmt.Printf("min Edge: %d -> %d (%d)\n", minEdge.From, minEdge.To, minEdge.Weight)
+	return &minEdge
+}
+
+type ByWeight []WEdge
+
+func (a ByWeight) Len() int           { return len(a) }
+func (a ByWeight) Less(i, j int) bool { return a[i].Weight < a[j].Weight }
+func (a ByWeight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+
+func (g *WeightGraph) GetSortedEdges() []WEdge {
+	edges := []WEdge{}
+
+	for _, adjacent := range g.Edges {
+		for _, e := range adjacent {
+			edges = append(edges, e)
+		}
+	}
+	sort.Sort(ByWeight(edges))
+	return edges
 }

@@ -1,6 +1,6 @@
 package dpProblem
 
-import "github.com/lexhsiao135/ds-go/LeetCode/models"
+import "github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 
 // https://www.geeksforgeeks.org/dynamic-programming/
 

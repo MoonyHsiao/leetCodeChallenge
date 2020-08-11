@@ -3,44 +3,79 @@ package main
 import (
 	"fmt"
 
-	"github.com/lexhsiao135/ds-go/LeetCode/greedy"
-	"github.com/lexhsiao135/ds-go/LeetCode/models/graphNode"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/greedy"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/solveed"
 )
 
 func main() {
-	// data := []int{7, 2, 8, 5, 0, 9, 1, 2, 9, 5, 3, 6, 6, 7, 3, 2, 8, 4, 3, 7, 9, 5, 7, 7, 4, 7, 4, 9, 4, 7, 0, 1, 1, 1, 7, 4, 0, 0, 6}
-	// target := 5
-	// data := 100
+	twoListNode()
+	twoTreeNode()
+	graph()
+	intArray()
+	strArray()
+	checkSingleInt()
+	oneListNode()
 
-	// data := "[1,1,2]"
-	// data2 := "[1,1,2]"
-	// listdata := treeNode.CreateTestData(data)
-	// listdata2 := treeNode.CreateTestData(data2)
+	a := solveed.ConvertToTitle(52)
+	fmt.Printf("res:%v\n", a)
 
-	// for i := 0; i < 10; i++ {
-	// 	res := dpProblem.Catalan(i)
-	// 	fmt.Printf("%v ", res)
-	// }
-	// res := dpProblem.Binomial(2, 1)
-	// fmt.Printf("res:%v\n", res)
-	res := greedy.ChangeMoney(86)
+}
+
+func twoListNode() {
+	data := "[2,6,4]"
+	data2 := "[1,5]"
+	listdata := listNode.CreateTestData(data)
+	listdata2 := listNode.CreateTestData(data2)
+
+	res := solveed.GetIntersectionNode(listdata, listdata2)
+
 	fmt.Printf("res:%v\n", res)
+}
 
-	aa := greedy.SimpleGraph()
-	aa.String()
-
-	aa.DFSTraverse(func(n *graphNode.Node) {
-		fmt.Printf("node:%v ->", n)
-	})
-
-	fmt.Println()
-
-	aa.BFSTraverse(func(n *graphNode.Node) {
-		fmt.Printf("node:%v ->", n)
-	})
-
+func graph() {
 	bb := greedy.WeightGraphinit()
 	bb.AdjacentEdgesExample()
+	bb.GetSortedEdges()
 	fmt.Println()
+	res := greedy.Kruskal(bb)
+	fmt.Printf("res:%v\n", res)
+}
 
+func twoTreeNode() {
+
+	data := "[1,1,2]"
+	data2 := "[1,1,2]"
+	listdata := treeNode.CreateTestData(data)
+	listdata2 := treeNode.CreateTestData(data2)
+	fmt.Print(listdata)
+	fmt.Print(listdata2)
+}
+
+func intArray() {
+	data := []int{1, 2, 3, 4, 5, 6, 7}
+	// target := 5
+	k := 3
+	solveed.Rotate(data, k)
+	// fmt.Printf("res:%v\n", res)
+}
+
+func strArray() {
+	data := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
+	res := solveed.GroupAnagrams(data)
+	fmt.Printf("res:%v\n", res)
+}
+
+func checkSingleInt() {
+	data := 19
+	res := solveed.IsHappy(data)
+	fmt.Println(res)
+}
+
+func oneListNode() {
+	data := "[1,2,3,4,5,6]"
+	listdata := listNode.CreateTestData(data)
+	res := solveed.MiddleNode(listdata)
+	fmt.Printf("res:%v\n", res)
 }

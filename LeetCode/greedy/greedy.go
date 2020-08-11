@@ -1,6 +1,8 @@
 package greedy
 
-import "github.com/lexhsiao135/ds-go/LeetCode/models/graphNode"
+import (
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/graphNode"
+)
 
 func maxDivide(a, b int) (remaining, coin int) {
 	c := 0
@@ -51,20 +53,79 @@ func SimpleGraph() *graphNode.ItemGraph {
 
 func WeightGraphinit() *graphNode.WeightGraph {
 	wg := graphNode.NewWeightGraph(9)
-	wg.AddEdge(0, 1, 10)
-	wg.AddEdge(0, 5, 11)
-	wg.AddEdge(1, 2, 18)
-	wg.AddEdge(1, 6, 16)
-	wg.AddEdge(1, 8, 12)
-	wg.AddEdge(2, 3, 22)
-	wg.AddEdge(2, 8, 8)
-	wg.AddEdge(3, 4, 20)
-	wg.AddEdge(3, 6, 24)
-	wg.AddEdge(3, 7, 16)
-	wg.AddEdge(3, 8, 21)
-	wg.AddEdge(4, 5, 26)
-	wg.AddEdge(4, 7, 7)
-	wg.AddEdge(5, 6, 17)
-	wg.AddEdge(6, 7, 19)
+	wg.AddEdge(0, 1, 7)
+	wg.AddEdge(0, 3, 5)
+	wg.AddEdge(1, 2, 8)
+	wg.AddEdge(1, 3, 9)
+	wg.AddEdge(1, 4, 7)
+	wg.AddEdge(2, 4, 5)
+	wg.AddEdge(3, 4, 15)
+	wg.AddEdge(3, 5, 6)
+	wg.AddEdge(4, 5, 8)
+	wg.AddEdge(4, 6, 9)
+	wg.AddEdge(5, 6, 11)
 	return wg
+}
+
+func WeightGraphinitV2() *graphNode.WeightGraph {
+	wg := graphNode.NewWeightGraph(9)
+	wg.AddEdge(0, 1, 5)
+	wg.AddEdge(0, 5, 3)
+	wg.AddEdge(1, 2, 10)
+	wg.AddEdge(1, 4, 1)
+	wg.AddEdge(1, 6, 4)
+	wg.AddEdge(2, 3, 5)
+	wg.AddEdge(2, 6, 8)
+	wg.AddEdge(3, 4, 7)
+	wg.AddEdge(3, 6, 9)
+	wg.AddEdge(4, 5, 6)
+	wg.AddEdge(4, 6, 2)
+
+	return wg
+}
+
+func Kruskal(wg *graphNode.WeightGraph) []graphNode.WEdge {
+
+	subset := [][]int{}
+	for i := 0; i < 7; i++ {
+		array := []int{i}
+		subset = append(subset, array)
+	}
+
+	edgesetMST := []graphNode.WEdge{}
+	list := wg.GetSortedEdges()
+	// fmt.Printf("sort list:%v", list)
+	i := 0
+	for len(edgesetMST) != 6 {
+		e := list[i]
+		fromIndex := findIndex(subset, e.From)
+		toIndex := findIndex(subset, e.To)
+		if fromIndex != toIndex {
+			edgesetMST = append(edgesetMST, e)
+			for i := range subset[toIndex] {
+				subset[fromIndex] = append(subset[fromIndex], subset[toIndex][i])
+			}
+			subset = RemoveArrayIndex(subset, toIndex)
+		}
+		i++
+	}
+	return edgesetMST
+}
+
+func findIndex(subset [][]int, target int) int {
+	res := -1
+	for i := range subset {
+		temp := subset[i]
+		for j := range temp {
+			if target == temp[j] {
+				res = i
+				break
+			}
+		}
+	}
+	return res
+}
+
+func RemoveArrayIndex(s [][]int, index int) [][]int {
+	return append(s[:index], s[index+1:]...)
 }
