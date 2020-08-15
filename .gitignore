@@ -26,3 +26,5 @@ debug
 debug.test
 *debug_bin*
 
+*.jpg
+*.jpeg

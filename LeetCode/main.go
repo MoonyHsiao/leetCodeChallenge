@@ -3,23 +3,29 @@ package main
 import (
 	"fmt"
 
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/greedy"
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/solveed"
+	"github.com/lexhsiao135/ds-go/LeetCode/greedy"
+	"github.com/lexhsiao135/ds-go/LeetCode/models/listNode"
+	"github.com/lexhsiao135/ds-go/LeetCode/models/treeNode"
+	"github.com/lexhsiao135/ds-go/LeetCode/solveed"
 )
 
 func main() {
-	twoListNode()
-	twoTreeNode()
-	graph()
+	// twoListNode()
+	// twoTreeNode()
+	// graph()
 	intArray()
-	strArray()
-	checkSingleInt()
-	oneListNode()
+	// strArray()
+	// checkSingleInt()
+	// oneListNode()
 
-	a := solveed.ConvertToTitle(52)
-	fmt.Printf("res:%v\n", a)
+	// a := solveed.ConvertToTitle(52)
+	// fmt.Printf("res:%v\n", a)
+
+	// data := []int{2, 7, 11, 14}
+	// t := 16
+	// i1, i2 := solveed.FindTwoSumIndex(data, t)
+	// fmt.Print(i1)
+	// fmt.Print(i2)
 
 }
 
@@ -54,11 +60,11 @@ func twoTreeNode() {
 }
 
 func intArray() {
-	data := []int{1, 2, 3, 4, 5, 6, 7}
-	// target := 5
-	k := 3
-	solveed.Rotate(data, k)
-	// fmt.Printf("res:%v\n", res)
+	data := []int{2, 7, 4, 13, 6}
+	// target := 8
+	// k := 3
+	res := solveed.SortArrayByParityV2(data)
+	fmt.Printf("res:%v\n", res)
 }
 
 func strArray() {
@@ -69,7 +75,7 @@ func strArray() {
 
 func checkSingleInt() {
 	data := 19
-	res := solveed.IsHappy(data)
+	res := solveed.TrailingZeroes(data)
 	fmt.Println(res)
 }
 

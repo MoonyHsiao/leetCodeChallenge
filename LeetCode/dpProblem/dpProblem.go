@@ -1,6 +1,6 @@
 package dpProblem
 
-import "github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
+import "github.com/lexhsiao135/ds-go/LeetCode/models"
 
 // https://www.geeksforgeeks.org/dynamic-programming/
 
@@ -80,4 +80,53 @@ func Binomial(n, k int) int {
 		return 1
 	}
 	return Binomial(n-1, k-1) + Binomial(n-1, k)
+}
+
+var dp [100][3]int
+
+func RGCBlock_ButtonUP(n, m int) int {
+
+	if n == 1 {
+		return 1
+	}
+	if dp[n][m] != 0 {
+		return dp[n][m]
+	}
+	// red
+	if m == 0 {
+		dp[n][m] = RGCBlock_ButtonUP(n-1, 0) + RGCBlock_ButtonUP(n-1, 1) + RGCBlock_ButtonUP(n-1, 2)
+	}
+	//green
+	if m == 1 {
+		dp[n][m] = RGCBlock_ButtonUP(n-1, 0) + RGCBlock_ButtonUP(n-1, 1)
+	}
+	//blue
+	if m == 2 {
+		dp[n][m] = RGCBlock_ButtonUP(n-1, 0) + RGCBlock_ButtonUP(n-1, 2)
+	}
+	return dp[n][m]
+}
+
+func RGCBlock_TopDown(n, m int) int {
+
+	prevRed := 1
+	prevGreen := 1
+	prevBlue := 1
+	for i := 1; i < n; i++ {
+		tempRed := prevRed
+		tempGreen := prevGreen
+		tempBlue := prevBlue
+		prevRed = tempRed + tempGreen + tempBlue
+		prevGreen = tempRed + tempBlue
+		prevBlue = tempRed + tempGreen
+	}
+	res := 0
+	if m == 0 {
+		res = prevRed
+	} else if m == 1 {
+		res = prevGreen
+	} else if m == 2 {
+		res = prevBlue
+	}
+	return res
 }

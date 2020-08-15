@@ -16,7 +16,7 @@ func (this *MinStack) Push(x int) {
 
 func (this *MinStack) Pop() {
 	index := len(this.s) - 1
-	this.s = RemoveIndexV2(this.s, index)
+	this.s = RemoveIndex(this.s, index)
 }
 
 func (this *MinStack) Top() int {

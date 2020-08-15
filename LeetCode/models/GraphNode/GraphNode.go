@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 	"github.com/cheekybits/genny/generic"
+	"github.com/lexhsiao135/ds-go/LeetCode/models"
 )
 
 type Item generic.Type

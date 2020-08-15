@@ -39,12 +39,6 @@ func GenData(arr []int) *ListNode {
 	return head.Next
 }
 
-// RemoveIndex(nums, 0) 會有bugS
-func RemoveIndex(s []int, index int) []int {
-	s[index] = s[len(s)-1]
-	return s[:len(s)-1]
-}
-
 func GetFirstNum(num int) int {
 	res := num
 	for num%10 > 0 {
@@ -87,7 +81,7 @@ func Min(a, b int) int {
 	return b
 }
 
-func RemoveIndexV2(s []int, index int) []int {
+func RemoveIndex(s []int, index int) []int {
 	return append(s[:index], s[index+1:]...)
 }
 

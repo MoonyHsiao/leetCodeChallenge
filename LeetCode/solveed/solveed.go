@@ -2,14 +2,15 @@ package solveed
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
 
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
+	"github.com/lexhsiao135/ds-go/LeetCode/models"
+	"github.com/lexhsiao135/ds-go/LeetCode/models/listNode"
+	"github.com/lexhsiao135/ds-go/LeetCode/models/treeNode"
 )
 
 func mergeTwoLists(l1 *models.ListNode, l2 *models.ListNode) *models.ListNode {
@@ -878,4 +879,157 @@ func modASCII(num int) []int {
 	}
 
 	return models.ReverseInts(res)
+}
+
+func TrailingZeroes(n int) int {
+	res := 0
+	if n == 0 {
+		return res
+	}
+
+	var i float64
+	i = 1
+	for n >= int(math.Pow(5, i)) {
+		var temp float64
+		temp = float64(n)
+		res += int(temp / (math.Pow(5, i)))
+		i++
+	}
+	return res
+
+}
+
+func FindTwoSumIndex(s []int, target int) (a, b int) {
+	maxIndex := len(s) - 1
+	first := -1
+	sec := -1
+	for i := range s {
+		if target < s[i] {
+			maxIndex = i - 1
+			break
+		}
+	}
+
+	isFind := false
+	for i := 0; i < maxIndex; i++ {
+		temp := target - s[i]
+
+		for j := maxIndex; j > 0; j-- {
+			if temp == s[j] {
+				first = i
+				sec = j
+				isFind = true
+				break
+			}
+		}
+		if isFind {
+			break
+		}
+	}
+	return first, sec
+}
+
+func Rob(nums []int) int {
+	prevGetMax := 0
+	prevNotGetMax := 0
+	for i := range nums {
+		temp := prevGetMax
+		prevGetMax = nums[i] + prevNotGetMax
+		if temp > prevNotGetMax {
+			prevNotGetMax = temp
+		}
+	}
+	return models.Max(prevNotGetMax, prevGetMax)
+}
+
+func FindTwoSumIndexV2(s []int, target int) (a, b int) {
+	saved := make(map[int]int)
+	first := -1
+	sec := -1
+	for i := range s {
+		_, ok := saved[s[i]]
+		if !ok {
+			temp := target - s[i]
+			saved[temp] = i
+		} else {
+			temp := target - s[i]
+			first = saved[temp]
+			sec = i
+			break
+		}
+	}
+	return first, sec
+}
+
+func HammingWeight(num uint32) int {
+
+	trans := fmt.Sprintf("%b", num)
+	count := 0
+	for i := range trans {
+		if string(trans[i]) == "1" {
+			count++
+		}
+	}
+	return count
+}
+
+func JudgeCircle(moves string) bool {
+	U := strings.Count(moves, "U")
+	D := strings.Count(moves, "D")
+	L := strings.Count(moves, "L")
+	R := strings.Count(moves, "R")
+	return U == D && L == R
+}
+
+func SortArrayByParity(slice []int) []int {
+	if len(slice) < 2 {
+		return slice
+	}
+	mid := (len(slice)) / 2
+	return MergeArrayByParity(SortArrayByParity(slice[:mid]), SortArrayByParity(slice[mid:]))
+}
+
+func MergeArrayByParity(left, right []int) []int {
+	size, i, j := len(left)+len(right), 0, 0
+	slice := make([]int, size, size)
+	for k := 0; k < size; k++ {
+		if i > len(left)-1 && j <= len(right)-1 {
+			slice[k] = right[j]
+			j++
+		} else if j > len(right)-1 && i <= len(left)-1 {
+			slice[k] = left[i]
+			i++
+		} else if left[i]%2 == 0 {
+			slice[k] = left[i]
+			i++
+		} else if right[j]%2 == 0 {
+			slice[k] = right[j]
+			j++
+		} else if right[j]%2 != 0 && left[i]%2 != 0 {
+			k1 := k
+			for i1 := i; i1 < len(left); i1++ {
+				slice[k1] = left[i1]
+				k1++
+			}
+			for l1 := j; l1 < len(right); l1++ {
+				slice[k1] = right[l1]
+				k1++
+			}
+			break
+		}
+	}
+	return slice
+}
+
+func SortArrayByParityV2(A []int) []int {
+	odd := []int{}
+	even := []int{}
+	for i := 0; i < len(A); i++ {
+		if A[i]%2 == 0 {
+			even = append(even, A[i])
+		} else {
+			odd = append(odd, A[i])
+		}
+	}
+	return append(even, odd...)
 }
