@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/lexhsiao135/ds-go/LeetCode/models"
-	"github.com/lexhsiao135/ds-go/LeetCode/models/listNode"
-	"github.com/lexhsiao135/ds-go/LeetCode/models/treeNode"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
 )
 
 func mergeTwoLists(l1 *models.ListNode, l2 *models.ListNode) *models.ListNode {
@@ -942,23 +942,24 @@ func Rob(nums []int) int {
 	return models.Max(prevNotGetMax, prevGetMax)
 }
 
-func FindTwoSumIndexV2(s []int, target int) (a, b int) {
+func FindTwoSumIndexV2(numbers []int, target int) []int {
 	saved := make(map[int]int)
 	first := -1
 	sec := -1
-	for i := range s {
-		_, ok := saved[s[i]]
+	for i := range numbers {
+		_, ok := saved[numbers[i]]
 		if !ok {
-			temp := target - s[i]
+			temp := target - numbers[i]
 			saved[temp] = i
 		} else {
-			temp := target - s[i]
+			temp := numbers[i]
 			first = saved[temp]
 			sec = i
 			break
 		}
 	}
-	return first, sec
+	res := []int{first + 1, sec + 1}
+	return res
 }
 
 func HammingWeight(num uint32) int {
@@ -1032,4 +1033,236 @@ func SortArrayByParityV2(A []int) []int {
 		}
 	}
 	return append(even, odd...)
+}
+
+func MajorityElement(nums []int) int {
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	m := make(map[int]int)
+	res := -1
+	for i := range nums {
+		_, ok := m[nums[i]]
+		if ok {
+			m[nums[i]] += 1
+			if m[nums[i]] > len(nums)/2 {
+				res = nums[i]
+				break
+			}
+		} else {
+			temp := nums[i]
+			m[temp] = 1
+		}
+	}
+	return res
+}
+
+func CountPrimes(n int) int {
+	primeArray := []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997, 1009, 1013, 1019, 1021, 1031, 1033, 1039, 1049, 1051, 1061, 1063, 1069, 1087, 1091, 1093, 1097, 1103, 1109, 1117, 1123, 1129, 1151, 1153, 1163, 1171, 1181, 1187, 1193, 1201, 1213, 1217, 1223, 1229, 1231, 1237, 1249, 1259, 1277, 1279, 1283, 1289, 1291, 1297, 1301, 1303, 1307, 1319, 1321, 1327, 1361, 1367, 1373, 1381, 1399, 1409, 1423, 1427, 1429, 1433, 1439, 1447, 1451, 1453, 1459, 1471, 1481, 1483, 1487, 1489, 1493, 1499, 1511, 1523, 1531, 1543, 1549, 1553, 1559, 1567, 1571, 1579, 1583, 1597, 1601, 1607, 1609, 1613, 1619, 1621, 1627, 1637, 1657, 1663, 1667, 1669, 1693, 1697, 1699, 1709, 1721, 1723, 1733, 1741, 1747, 1753, 1759, 1777, 1783, 1787, 1789, 1801, 1811, 1823, 1831, 1847, 1861, 1867, 1871, 1873, 1877, 1879, 1889, 1901, 1907, 1913, 1931, 1933, 1949, 1951, 1973, 1979, 1987, 1993, 1997, 1999, 2003, 2011, 2017, 2027, 2029, 2039, 2053, 2063, 2069, 2081, 2083, 2087, 2089, 2099, 2111, 2113, 2129, 2131, 2137, 2141, 2143, 2153, 2161, 2179, 2203, 2207, 2213, 2221, 2237, 2239, 2243, 2251, 2267, 2269, 2273, 2281, 2287, 2293, 2297, 2309, 2311, 2333, 2339, 2341, 2347, 2351, 2357, 2371, 2377, 2381, 2383, 2389, 2393, 2399, 2411, 2417, 2423, 2437, 2441, 2447, 2459, 2467, 2473, 2477, 2503, 2521, 2531, 2539, 2543, 2549, 2551, 2557, 2579, 2591, 2593, 2609, 2617, 2621, 2633, 2647, 2657, 2659, 2663, 2671, 2677, 2683, 2687, 2689, 2693, 2699, 2707, 2711, 2713, 2719, 2729, 2731, 2741, 2749, 2753, 2767, 2777, 2789, 2791, 2797, 2801, 2803, 2819, 2833, 2837, 2843, 2851, 2857, 2861, 2879, 2887, 2897, 2903, 2909, 2917, 2927, 2939, 2953, 2957, 2963, 2969, 2971, 2999, 3001, 3011, 3019, 3023, 3037, 3041, 3049, 3061, 3067, 3079, 3083, 3089, 3109, 3119, 3121, 3137, 3163, 3167, 3169, 3181, 3187, 3191, 3203, 3209, 3217, 3221, 3229, 3251, 3253, 3257, 3259, 3271, 3299, 3301, 3307, 3313, 3319, 3323, 3329, 3331, 3343, 3347, 3359, 3361, 3371, 3373, 3389, 3391, 3407, 3413, 3433, 3449, 3457, 3461, 3463, 3467, 3469, 3491, 3499, 3511, 3517, 3527, 3529, 3533, 3539, 3541, 3547, 3557, 3559, 3571, 3581, 3583, 3593, 3607, 3613, 3617, 3623, 3631, 3637, 3643, 3659, 3671, 3673, 3677, 3691, 3697, 3701, 3709, 3719, 3727, 3733, 3739, 3761, 3767, 3769, 3779, 3793, 3797, 3803, 3821, 3823, 3833, 3847, 3851, 3853, 3863, 3877, 3881, 3889, 3907, 3911, 3917, 3919, 3923, 3929, 3931, 3943, 3947, 3967, 3989}
+	count := 0
+	isInArray := false
+	primeArrayMax := primeArray[len(primeArray)-1]
+	if n < primeArrayMax {
+		isInArray = true
+	}
+	//先檢查這個值有沒有在array裡面 沒有就生成到有
+	if !isInArray {
+		for i := primeArrayMax + 1; i < n; i++ {
+			ok := isPrimes(i, &primeArray)
+			if ok {
+				primeArray = append(primeArray, i)
+			}
+		}
+
+	}
+
+	//最後檢查
+	for i := range primeArray {
+		if n > primeArray[i] {
+			count++
+
+		} else {
+			break
+		}
+	}
+	return count
+}
+
+func isPrimes(n int, primeArray *[]int) bool {
+	isPrime := true
+	temp := math.Sqrt(float64(n))
+	for i := 0; i < int(temp); i++ {
+		if n%(*primeArray)[i] == 0 {
+			isPrime = false
+			break
+		}
+	}
+	return isPrime
+}
+
+func GenPrimes(n int) []string {
+	primeArray := []int{2}
+	primeArrayS := []string{"2"}
+	for i := 2; i < n; i++ {
+		isPrime := true
+		for j := range primeArray {
+			if i%primeArray[j] == 0 {
+				isPrime = false
+				break
+			}
+		}
+		if isPrime {
+			primeArray = append(primeArray, i)
+			primeArrayS = append(primeArrayS, strconv.Itoa(i))
+		}
+	}
+	return primeArrayS
+}
+
+func IsIsomorphic(s string, t string) bool {
+	sMap := make(map[byte]int)
+	tMap := make(map[byte]int)
+	if len(s) != len(t) {
+		return false
+	}
+	for i := range s {
+		// fmt.Printf("s[i]:%v,t[i]:%v\n", s[i], t[i])
+		// fmt.Printf("sMap[s[i]] :%v,tMap[t[i]]:%v\n", sMap[s[i]], tMap[t[i]])
+		if sMap[s[i]] == tMap[t[i]] {
+			sMap[s[i]] = i + 1
+			tMap[t[i]] = i + 1
+		} else {
+			return false
+		}
+	}
+	return true
+}
+
+func ReverseList(head *listNode.ListNode) *listNode.ListNode {
+	res := &listNode.ListNode{}
+	resHead := res
+	arr := []int{}
+	if head == nil {
+		return nil
+	}
+
+	for head != nil {
+		val := head.Val
+		arr = append(arr, val)
+		head = head.Next
+	}
+
+	for i := len(arr) - 1; i >= 0; i-- {
+		res.Val = arr[i]
+		temp := &listNode.ListNode{}
+		if i == 0 {
+			break
+		}
+		res.Next = temp
+		res = res.Next
+	}
+	return resHead
+}
+
+func ContainsDuplicate(nums []int) bool {
+	m := make(map[int]int)
+	for i := range nums {
+		_, ok := m[nums[i]]
+		if ok {
+			return true
+		} else {
+			temp := nums[i]
+			m[temp] = 1
+		}
+	}
+	return false
+}
+
+func Merge(nums1 []int, m int, nums2 []int, n int) {
+	size, i, j := len(nums1), 0, 0
+	slice := make([]int, size, size)
+	for k := 0; k < size; k++ {
+		if i >= m && j <= n {
+			slice[k] = nums2[j]
+			j++
+		} else if j >= n && i <= m {
+			slice[k] = nums1[i]
+			i++
+		} else if nums1[i] < nums2[j] {
+			slice[k] = nums1[i]
+			i++
+		} else {
+			slice[k] = nums2[j]
+			j++
+		}
+	}
+	for i := range nums1 {
+		nums1[i] = slice[i]
+	}
+}
+
+func InvertTree(root *treeNode.TreeNode) *treeNode.TreeNode {
+	if root == nil {
+		return nil
+	}
+	temp := InvertTree(root.Right)
+	root.Right = InvertTree(root.Left)
+	root.Left = temp
+	return root
+}
+
+// 感覺是設計上的問題 還不習慣這樣設計del
+func DeleteNode(node *listNode.ListNode) {
+	node.Val = node.Next.Val
+	node.Next = node.Next.Next
+}
+
+func IsAnagram(s string, t string) bool {
+	if len(s) != len(t) {
+		return false
+	}
+	set := make(map[string]string)
+	for i := range s {
+		temp := string(s[i])
+		_, exist := set[temp]
+		if !exist {
+			set[temp] = temp
+		}
+	}
+
+	for k := range set { // Loop
+		sample := k
+		sCount := strings.Count(s, sample)
+		tCount := strings.Count(t, sample)
+		if sCount != tCount {
+			return false
+		}
+	}
+	return true
+}
+
+type sortRunes []rune
+
+func (s sortRunes) Less(i, j int) bool {
+	return s[i] < s[j]
+}
+
+func (s sortRunes) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s sortRunes) Len() int {
+	return len(s)
+}
+
+func SortString(s string) string {
+	r := []rune(s)
+	sort.Sort(sortRunes(r))
+	return string(r)
+}
+
+func IsAnagramV2(s string, t string) bool {
+	s1 := SortString(s)
+	t1 := SortString(t)
+	return s1 == t1
 }

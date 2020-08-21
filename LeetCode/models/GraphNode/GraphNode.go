@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/cheekybits/genny/generic"
-	"github.com/lexhsiao135/ds-go/LeetCode/models"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 )
 
 type Item generic.Type

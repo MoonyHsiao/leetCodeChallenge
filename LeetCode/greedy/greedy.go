@@ -1,7 +1,7 @@
 package greedy
 
 import (
-	"github.com/lexhsiao135/ds-go/LeetCode/models/graphNode"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/graphNode"
 )
 
 func maxDivide(a, b int) (remaining, coin int) {

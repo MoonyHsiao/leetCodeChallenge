@@ -13,9 +13,7 @@
       "env": {
         "GODEBUG": "netdns=go+2"
       },
-      "args": [
-        "go run main.go"
-      ],
+      "args": [],
       "showLog": false
     }
   ]
