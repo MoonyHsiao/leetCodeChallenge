@@ -5,33 +5,33 @@ import (
 
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/greedy"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/queue"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/search"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/stack"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/solveed"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/unsolveed"
 )
 
 func main() {
 	// twoListNode()
 	// twoTreeNode()
 	// graph()
-	// intArray()
+	intArray()
 	// strArray()
 	// checkSingleInt()
 	// oneListNode()
 	// compareString()
 	// testRobot()
 	// singleTreeNode()
-	sortArray()
+	// sortArray()
 	// stackArray()
+	// queueArray()
+	// searchArray()
 	// data := 1000000
 	// res := unsolveed.MinimumGreaterThanGenAnswer(data)
 	// fmt.Printf("res:%v\n", res)
-
-	// aaa := unsolveed.Constructor()
-	// aaa.Push(2)
-	// bbb := aaa.Empty()
-	// fmt.Printf("bbb:%v\n", bbb)
 
 }
 
@@ -40,9 +40,7 @@ func twoListNode() {
 	data2 := "[1,5]"
 	listdata := listNode.CreateTestData(data)
 	listdata2 := listNode.CreateTestData(data2)
-
 	res := solveed.GetIntersectionNode(listdata, listdata2)
-
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -66,11 +64,9 @@ func twoTreeNode() {
 }
 
 func intArray() {
-	data := []int{6, 2, 4, 1, 7, 3, 5}
-	// data := []int{1, 2, 3, 4, 5, 6}
-	// target := 9
-	// k := 3
-	res := solveed.MaxRingProblem(data)
+	data := []int{1, 2, 3, 4, 7}
+	target := 3
+	res := unsolveed.MaxDistance(data, target)
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -101,7 +97,6 @@ func compareString() {
 }
 
 func testRobot() {
-
 	commands := []int{-2, -1, 8, 9, 6}
 	obstacles := [][]int{}
 	obstacle1 := []int{-1, 3}
@@ -136,7 +131,7 @@ func singleTreeNode() {
 }
 
 func sortArray() {
-	data := []int{5, 50, 10, 90, 30, 70, 40, 80, 20, 60, 100}
+	data := []int{1, 3, 2, 3, 4, 5}
 	sort.QuickSort(&data, 0, len(data)-1)
 	fmt.Printf("res:%v\n", data)
 }
@@ -158,4 +153,32 @@ func stackArray() {
 			fmt.Printf("stringStack.Pop:%v\n", x)
 		}
 	}
+}
+
+func queueArray() {
+	var stringQueue queue.StringQueue
+
+	stringQueue.Push("+")
+	stringQueue.Push("/")
+	stringQueue.Push("*")
+	fmt.Printf("stringQueue.GetLen:%v\n", stringQueue.GetLen())
+	fmt.Printf("stringQueue.PeekFront:%v\n", stringQueue.PeekFront())
+	fmt.Printf("stringQueue.PeekBack:%v\n", stringQueue.PeekBack())
+	// stringQueue.Clear()
+	// fmt.Printf("stringQueue.GetLen:%v\n", stringQueue.GetLen())
+	// fmt.Printf("stringQueue.Peek:%v\n", stringQueue.Peek())
+	for len(stringQueue) > 0 {
+		x, y := stringQueue.Pop()
+		if y == true {
+			fmt.Printf("stringStack.Pop:%v\n", x)
+		}
+	}
+}
+
+func searchArray() {
+	data := []int{1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	target := 2
+	// k := 3
+	res := search.BinarySreach(data, target)
+	fmt.Printf("res:%v\n", res)
 }

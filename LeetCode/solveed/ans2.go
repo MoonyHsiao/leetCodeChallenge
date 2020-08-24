@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
 )
 
 func MaxRingProblem(nums []int) int {
@@ -44,6 +45,7 @@ func MaxRingProblem(nums []int) int {
 	}
 	return maxCount
 }
+
 func GetSameSet(m map[int]int, target int) map[int]int {
 	res := make(map[int]int)
 	res[target] = target
@@ -108,4 +110,17 @@ func RobotSim(commands []int, obstacles [][]int) int {
 		}
 	}
 	return dist
+}
+
+func MaxCoins(piles []int) int {
+	res := 0
+	sorted := sort.MergeSort(piles)
+	size := len(piles)
+	sorted = sorted[size/3:]
+	for i := len(sorted) - 1; i >= 0; i-- {
+		if i%2 == 0 {
+			res += sorted[i]
+		}
+	}
+	return res
 }

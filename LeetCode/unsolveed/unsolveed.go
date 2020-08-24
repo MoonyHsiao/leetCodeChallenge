@@ -1,51 +1,33 @@
 package unsolveed
 
 import (
+	"fmt"
 	"strconv"
+
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
 )
 
-// https://leetcode.com/problems/implement-queue-using-stacks/
-type MyQueue struct {
-	values []int
-	head   int
-	tail   int
-	count  int
-}
+// https://leetcode.com/problems/magnetic-force-between-two-balls/
+// 用binary search
+func MaxDistance(position []int, m int) int {
+	res := 0
+	sorted := sort.MergeSort(position)
+	low := 0
+	high := len(position) - 1
+	max := position[high] - position[low]
+	res = max
+	fmt.Printf("sorted:%v\n", sorted)
+	// 找到最大最小之後 下一個值只能是最大的1/2以下
+	for m > 0 {
 
-/** Initialize your data structure here. */
-func Constructor() MyQueue {
-	res := MyQueue{}
+		m--
+	}
 	return res
 }
 
-/** Push element x to the back of queue. */
-func (this *MyQueue) Push(x int) {
-	this.values = append(this.values, x)
+func isPossible() bool {
+	return false
 }
-
-/** Removes the element from in front of queue and returns that element. */
-// func (this *MyQueue) Pop() int {
-
-// }
-
-/** Get the front element. */
-// func (this *MyQueue) Peek() int {
-
-// }
-
-/** Returns whether the queue is empty. */
-func (this *MyQueue) Empty() bool {
-	return len(this.values) == 0
-}
-
-/**
- * Your MyQueue object will be instantiated and called as such:
- * obj := Constructor();
- * obj.Push(x);
- * param_2 := obj.Pop();
- * param_3 := obj.Peek();
- * param_4 := obj.Empty();
- */
 
 // 9 的倍數的判斷式啊
 // 原數 mod 9 = 新數 mod 9, 所以必定只差 9 的倍數
@@ -93,4 +75,10 @@ func trans(n string) []int {
 		nums = append(nums, temp)
 	}
 	return nums
+}
+
+func test() {
+	res := 0
+	fmt.Print(res)
+	fmt.Printf("res:%v\n", res)
 }

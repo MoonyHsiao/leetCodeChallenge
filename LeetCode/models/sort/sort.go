@@ -1,5 +1,7 @@
 package sort
 
+import "fmt"
+
 func swap(nums *[]int, i, j int) {
 	(*nums)[i], (*nums)[j] = (*nums)[j], (*nums)[i]
 }
@@ -134,12 +136,32 @@ func Partition(nums *[]int, low, high int) int {
 	temp := (*nums)[pivot]
 	// fmt.Printf("pivot:%v,temp:%v\n", pivot, temp)
 	for low < high {
-		for (*nums)[low] < temp {
+
+		for low < high && (*nums)[low] <= temp {
 			low++
 		}
 		swap(nums, low, high)
 
-		for (*nums)[high] > temp {
+		for low < high && (*nums)[high] >= temp {
+			high--
+		}
+		swap(nums, low, high)
+	}
+	return low
+}
+
+func PartitionHasErr(nums *[]int, low, high int) int {
+	pivot := high
+	temp := (*nums)[pivot]
+	fmt.Printf("pivot:%v,temp:%v\n", pivot, temp)
+	for low < high {
+		// 沒有比較條件就會往上飄到爆range
+		for (*nums)[low] <= temp {
+			low++
+		}
+		swap(nums, low, high)
+
+		for (*nums)[high] >= temp {
 			high--
 		}
 		swap(nums, low, high)
