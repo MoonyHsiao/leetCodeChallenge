@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/dpProblem"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/greedy"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/queue"
@@ -29,10 +30,8 @@ func main() {
 	// stackArray()
 	// queueArray()
 	// searchArray()
-	// data := 1000000
-	// res := unsolveed.MinimumGreaterThanGenAnswer(data)
-	// fmt.Printf("res:%v\n", res)
-
+	// dp()
+	// islands()
 }
 
 func twoListNode() {
@@ -64,9 +63,8 @@ func twoTreeNode() {
 }
 
 func intArray() {
-	data := []int{1, 2, 3, 4, 7}
-	target := 3
-	res := unsolveed.MaxDistance(data, target)
+	data := 200
+	res := unsolveed.LexicalOrder(data)
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -181,4 +179,24 @@ func searchArray() {
 	// k := 3
 	res := search.BinarySreach(data, target)
 	fmt.Printf("res:%v\n", res)
+}
+
+func dp() {
+	dpProblem.Hanoi(3, "A", "B", "C")
+}
+
+func islands() {
+
+	data := [][]byte{}
+	obstacle1 := []byte{'1', '1', '1', '1', '0'}
+	obstacle2 := []byte{'1', '1', '0', '1', '0'}
+	obstacle3 := []byte{'1', '1', '0', '0', '0'}
+	obstacle4 := []byte{'0', '0', '0', '0', '0'}
+	data = append(data, obstacle1)
+	data = append(data, obstacle2)
+	data = append(data, obstacle3)
+	data = append(data, obstacle4)
+	res := solveed.NumIslands_DFS(data)
+	fmt.Printf("res:%v\n", res)
+
 }

@@ -1,6 +1,10 @@
 package dpProblem
 
-import "github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
+import (
+	"fmt"
+
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
+)
 
 // https://www.geeksforgeeks.org/dynamic-programming/
 
@@ -129,4 +133,16 @@ func RGCBlock_TopDown(n, m int) int {
 		res = prevBlue
 	}
 	return res
+}
+
+func Hanoi(n int, a, b, c string) {
+	if n == 1 {
+		res := fmt.Sprintf("%v->%v", a, c)
+		fmt.Printf("move:%v\n", res)
+	} else {
+
+		Hanoi(n-1, a, c, b)
+		Hanoi(1, a, b, c)
+		Hanoi(n-1, b, a, c)
+	}
 }
