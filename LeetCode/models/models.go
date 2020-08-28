@@ -125,3 +125,7 @@ func Abs(n int) int {
 	}
 	return n
 }
+
+func MinTriple(a, b, c int) int {
+	return Min(Min(a, b), Min(a, c))
+}

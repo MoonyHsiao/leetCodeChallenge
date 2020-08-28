@@ -3,9 +3,12 @@ package solveed
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/dpProblem"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/stack"
 )
 
 func MaxRingProblem(nums []int) int {
@@ -241,6 +244,157 @@ func (this *ProductOfNumbers) GetProduct(k int) int {
 		res = res * this.list[size]
 		k--
 		size--
+	}
+	return res
+}
+
+func LexicalOrder(n int) []int {
+	res := make([]int, n)
+	cur := 1
+	for i := 0; i < n; i++ {
+		res[i] = cur
+		if cur*10 <= n {
+			cur *= 10
+		} else {
+			if cur >= n {
+				cur /= 10
+			}
+			cur++
+			for cur%10 == 0 {
+				cur /= 10
+			}
+		}
+	}
+	return res
+}
+
+func MergeString(s string, t string) string {
+	res := ""
+	first := ""
+	sec := ""
+	if len(s) >= len(t) {
+		first = s
+		sec = t
+	} else {
+		first = t
+		sec = s
+	}
+
+	firstSplitSet := []string{}
+	runeFirst := []rune(first)[:]
+	for len(runeFirst)-2 > 0 {
+		temp := runeFirst[:2]
+		firstSplitSet = append(firstSplitSet, string(temp))
+		runeFirst = runeFirst[2:]
+	}
+	if len(runeFirst) != 0 {
+		temp := runeFirst[:]
+		firstSplitSet = append(firstSplitSet, string(temp))
+		runeFirst = nil
+	}
+	firstSize := len(firstSplitSet)
+	for i := range sec {
+		index := i % firstSize
+		temp := firstSplitSet[index]
+		temp = temp + string(sec[i])
+		firstSplitSet[index] = temp
+	}
+	for i := range firstSplitSet {
+		res += firstSplitSet[i]
+	}
+	return res
+}
+func NumberOfDistinctIntegers(num int) int {
+	temp := strconv.Itoa(num)
+	res := len(temp)
+	m := make(map[string]int)
+	for i := range temp {
+		m[string(temp[i])]++
+	}
+	// 先算出所有可能
+	molecular := dpProblem.Factorial(res)
+	denominator := 1
+
+	for _, v := range m {
+		denominator *= dpProblem.Factorial(v)
+	}
+	totalRes := molecular / denominator
+	// 如果有0 那就減去所有0開頭的組合數
+	if m["0"] > 0 {
+		if m["0"]-1 == 0 {
+			delete(m, "0")
+		} else {
+			m["0"]--
+		}
+		molecularTemp := dpProblem.Factorial(res - 1)
+		denominatTemp := 1
+		for _, v := range m {
+			denominatTemp *= dpProblem.Factorial(v)
+		}
+		imPassRes := molecularTemp / denominatTemp
+		return totalRes - imPassRes
+	}
+	return totalRes
+}
+
+// 給定 POP, DUP, +, - 跟 數字 組成的字串算出結果。請依下表計算答案，若答案為負或是無法計算請回傳 -1。
+// 指令	意思
+// POP	POP
+// DUP	DUPLICATE
+// +	ADD
+// -	Subtract
+// 數字	PUSH
+// 例如給 4 5 DUP 2 + 8 - POP 答案為 1
+// ["4" "5" "DUP" "2" "+" "8" "-" "POP"]
+func StrangeCalculator(strs []string) int {
+	var operatorStack stack.StringStack
+	var operandStack stack.StringStack
+	for i := range strs {
+		temp := strs[i]
+		_, transOperatorErr := strconv.Atoi(temp)
+		if temp == "+" || temp == "-" {
+			operandStack.Push(temp)
+			if operatorStack.GetLen() <= 2 {
+				return -1
+			}
+
+			firstStr, _ := operatorStack.Pop()
+			secStr, _ := operatorStack.Pop()
+			first, _ := strconv.Atoi(firstStr.(string))
+			sec, _ := strconv.Atoi(secStr.(string))
+			res := -1
+			if temp == "+" {
+				res = first + sec
+			} else if temp == "-" {
+				res = first - sec
+			}
+			operatorStack.Push(strconv.Itoa(res))
+
+		} else if transOperatorErr == nil {
+			operatorStack.Push(temp)
+		} else if temp == "DUP" {
+			if operatorStack.GetLen() == 0 {
+				return -1
+			}
+			a := operatorStack.Peek().(string)
+			operatorStack.Push(a)
+		} else if temp == "POP" {
+			resStr, isOk := operatorStack.Pop()
+			if !isOk {
+				return -1
+			}
+			res, _ := strconv.Atoi(resStr.(string))
+			return res
+		}
+	}
+	// 最後再來處理都沒有POP
+	resStr, isOk := operatorStack.Pop()
+	if !isOk {
+		return -1
+	}
+	res, _ := strconv.Atoi(resStr.(string))
+	if res < 0 {
+		return -1
 	}
 	return res
 }

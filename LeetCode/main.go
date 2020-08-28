@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"time"
 
-	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/dpProblem"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/greedy"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/queue"
@@ -19,8 +19,8 @@ func main() {
 	// twoListNode()
 	// twoTreeNode()
 	// graph()
-	intArray()
-	// strArray()
+	// intArray()
+	strArray()
 	// checkSingleInt()
 	// oneListNode()
 	// compareString()
@@ -32,6 +32,7 @@ func main() {
 	// searchArray()
 	// dp()
 	// islands()
+
 }
 
 func twoListNode() {
@@ -63,14 +64,17 @@ func twoTreeNode() {
 }
 
 func intArray() {
-	data := 200
-	res := unsolveed.LexicalOrder(data)
+	// data := []int{3, 2, 4, 5, 4}
+	data := 210
+	res := solveed.NumberOfDistinctIntegers(data)
+	// res := unsolveed.LexicalOrderAns(data)
 	fmt.Printf("res:%v\n", res)
 }
 
 func strArray() {
-	data := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
-	res := solveed.GroupAnagrams(data)
+	// data := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
+	data := []string{"4", "5", "DUP", "2", "+", "8", "-", "POP"}
+	res := solveed.StrangeCalculator(data)
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -88,9 +92,9 @@ func oneListNode() {
 }
 
 func compareString() {
-	data1 := "abb"
-	data2 := "bab"
-	res := solveed.IsIsomorphic(data1, data2)
+	data1 := "AAAAA"
+	data2 := "BB"
+	res := solveed.MergeString(data1, data2)
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -182,7 +186,13 @@ func searchArray() {
 }
 
 func dp() {
-	dpProblem.Hanoi(3, "A", "B", "C")
+	days := []int{1, 2, 4, 5, 6, 8, 9, 10, 11, 12, 14, 15, 16, 18, 19, 21, 22, 25, 28, 29, 30, 31, 35, 36, 37, 38, 39, 40, 41, 42, 44, 45, 47, 48, 50, 52, 54, 56, 59, 60, 62, 63, 64, 67, 68, 69, 70, 72, 74, 76, 77, 79, 80, 82, 83, 84, 86, 87, 91, 95, 96, 98}
+	costs := []int{5, 20, 86}
+	start := time.Now()
+	res := unsolveed.MincostTickets(days, costs)
+	elapsed := time.Since(start)
+	fmt.Printf("res:%v\n", res)
+	fmt.Printf("Took %s", elapsed)
 }
 
 func islands() {

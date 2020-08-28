@@ -4,54 +4,122 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
 )
 
-// res:[1 10 100 101 102 103 104 105 106 107 108 109 11 110 111 112 113 114 115 116 117 118 119 12 120 121 122 123 124 125 126 127 128 129 13 130 131 132 133 134 135 136 137 138 139 14 140 141 142 143 144 145 146 147 148 149 15 150 151 152 153 154 155 156 157 158 159 16 160 161 162 163 164 165 166 167 168 169 17 170 171 172 173 174 175 176 177 178 179 18 180 181 182 183 184 185 186 187 188 189 19 190 191 192 193 194 195 196 197 198 199 2 20 200 21 22 23 24 25 26 27 28 29 3 30 31 32 33 34 35 36 37 38 39 4 40 41 42 43 44 45 46 47 48 49 5 50 51 52 53 54 55 56 57 58 59 6 60 61 62 63 64 65 66 67 68 69 7 70 71 72 73 74 75 76 77 78 79 8 80 81 82 83 84 85 86 87 88 89 9 90 91 92 93 94 95 96 97 98 99]
-// res:[1 10 100 101 102 103 104 105 106 107 108 109 11 110 111 112 113 114 115 116 117 118 119 12 120 121 122 123 124 125 126 127 128 129 13 130 131 132 133 134 135 136 137 138 139 14 140 141 142 143 144 145 146 147 148 149 15 150 151 152 153 154 155 156 157 158 159 16 160 161 162 163 164 165 166 167 168 169 17 170 171 172 173 174 175 176 177 178 179 18 180 181 182 183 184 185 186 187 188 189 19 190 191 192 193 194 195 196 197 198 199 2 20 200 201 202 203 204 205 206 207 208 209 21 22 23 24 25 26 27 28 29 3 30 31 32 33 34 35 36 37 38 39 4 40 41 42 43 44 45 46 47 48 49 5 50 51 52 53 54 55 56 57 58 59 6 60 61 62 63 64 65 66 67 68 69 7 70 71 72 73 74 75 76 77 78 79 8 80 81 82 83 84 85 86 87 88 89 9 90]
-func LexicalOrder(n int) []int {
-	res := make([]int, n)
-	cur := 1
-	for i := 0; i < n; i++ {
-		res[i] = cur
-		if cur*10 <= n {
-			cur *= 10
-		} else {
-			// 要++
-			cur++
-			for cur%10 == 0 {
-				cur = cur / 10
-			}
-		}
-
+// https://leetcode.com/problems/minimum-cost-for-tickets/
+func MincostTickets(days []int, costs []int) int {
+	if len(days) == 1 {
+		return models.MinTriple(costs[0], costs[1], costs[2])
 	}
-	return res
+	temp := days[0]
+	a, b, c := costs[0], costs[1], costs[2]
+	index7Day, index30Day := 0, 0
+	is7DayPassEnd, is30DayPassEnd := true, true
+	for i := range days {
+		index7Day = i
+		if temp+7 <= days[i] {
+			is7DayPassEnd = false
+			break
+		}
+	}
 
+	for i := range days {
+		index30Day = i
+		if temp+30 <= days[i] {
+			is30DayPassEnd = false
+			break
+		}
+	}
+	reduce1DayPassArray, reduce7DayPassArray, reduce30DayPassArray := days[1:], days[index7Day:], days[index30Day:]
+	a += MincostTickets(reduce1DayPassArray, costs)
+	if !is7DayPassEnd {
+		b += MincostTickets(reduce7DayPassArray, costs)
+	}
+	if !is30DayPassEnd {
+		c += MincostTickets(reduce30DayPassArray, costs)
+	}
+	return models.MinTriple(a, b, c)
 }
-func LexicalOrderAns(n int) []int {
-	res := make([]int, n)
-	cur := 1
-	for i := 0; i < n; i++ {
-		res[i] = cur
-		if cur*10 <= n {
-			cur *= 10
-		} else {
-			if cur >= n {
-				cur = cur / 10
-			}
-			cur++
-			for cur%10 == 0 {
-				cur = cur / 10
-			}
 
+func MincostTicketsTimeOutVer(days []int, costs []int) int {
+	if len(days) == 1 {
+		return models.MinTriple(costs[0], costs[1], costs[2])
+	}
+	temp := days[0]
+	a, b, c := costs[0], costs[1], costs[2]
+	index7Day, index30Day := 0, 0
+	is7DayPassEnd, is30DayPassEnd := true, true
+	for i := range days {
+		index7Day = i
+		if temp+7 <= days[i] {
+			is7DayPassEnd = false
+			break
 		}
 	}
-	return res
 
+	for i := range days {
+		index30Day = i
+		if temp+30 <= days[i] {
+			is30DayPassEnd = false
+			break
+		}
+	}
+	reduce1DayPassArray, reduce7DayPassArray, reduce30DayPassArray := days[1:], days[index7Day:], days[index30Day:]
+	a += MincostTickets(reduce1DayPassArray, costs)
+	if !is7DayPassEnd {
+		b += MincostTickets(reduce7DayPassArray, costs)
+	}
+	if !is30DayPassEnd {
+		c += MincostTickets(reduce30DayPassArray, costs)
+	}
+	return models.MinTriple(a, b, c)
+}
+
+func CountIncreaseSubArray(nums []int) int {
+	m := make([][]int, len(nums))
+	res := 0
+	for i := 0; i < len(nums); i++ {
+		temp := nums[i]
+		for j := 0; j <= i; j++ {
+			if nums[j] < temp {
+				m[i] = append(m[i], nums[j])
+			}
+			// else {
+			// 	m[i] = append(m[i], -1)
+			// }
+		}
+		// if len(m[i]) == 0 {
+		// 	m[i] = append(m[i], temp)
+		// }
+	}
+	// for i := range m {
+	// 	res += len(m[i])
+	// }
+	fmt.Printf("nums:%v\n", nums)
+	fmt.Printf("m:%v\n", m)
+	return res
+	// Input : arr[] = {3, 2, 4, 5, 4}
+	// Output : 14
+	// Sub-sequences are {3}, {2}, {4},
+	// count[3]=0
+	// count[2]=0
+	// count[4]=1+count[2]+1+count[3]=2
+	// {3,4},
+	// {2,4},
+	// count[5]=1+count[4]+1+count[3]+1+count[2]=1+2+1+1=5
+	// {3,5},
+	// {2,5},
+	// {4,5},
+	// {2,4,5}
+	// {3,4,5},
+	// count[4]=1+count[2]+1+count[3]
+	// {3,4},
+	// {2,4}
 }
 
 // https://blog.csdn.net/weixin_40546602/article/details/88546583
-// https://leetcode.com/problems/number-of-islands/
 
 // https://leetcode.com/problems/magnetic-force-between-two-balls/
 // 用binary search

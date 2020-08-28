@@ -146,3 +146,10 @@ func Hanoi(n int, a, b, c string) {
 		Hanoi(n-1, b, a, c)
 	}
 }
+
+func Factorial(n int) int {
+	if n == 1 {
+		return 1
+	}
+	return n * Factorial(n-1)
+}
