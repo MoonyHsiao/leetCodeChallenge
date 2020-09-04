@@ -398,3 +398,148 @@ func StrangeCalculator(strs []string) int {
 	}
 	return res
 }
+
+func LengthOfLongestSubstring(s string) int {
+	if len(s) <= 1 {
+		return len(s)
+	}
+	res := 0
+	wordStack := make(map[string]bool)
+	for i := range s {
+		first := string(s[i])
+		wordStack[first] = true
+		for j := i + 1; j < len(s); j++ {
+			temp := string(s[j])
+			if wordStack[temp] != false {
+				size := len(wordStack)
+				if size > res {
+					res = size
+				}
+				for k, _ := range wordStack {
+					delete(wordStack, k)
+				}
+				break
+			} else {
+				wordStack[temp] = true
+			}
+		}
+	}
+	size := len(wordStack)
+	if size > res {
+		res = size
+	}
+	return res
+}
+
+func CanArrange(arr []int, k int) bool {
+	modFreq := make([]int, k)
+	for i := range arr {
+		rmd := arr[i] % k
+		if rmd < 0 {
+			rmd += k
+		}
+		modFreq[rmd]++
+	}
+	// mod 0要是奇數個就是有問題
+	if modFreq[0]%2 != 0 {
+		return false
+	}
+
+	for i := 1; i <= k/2; i++ {
+		if modFreq[i] != modFreq[k-i] {
+			return false
+		}
+	}
+	return true
+}
+
+// 9 的倍數的判斷式啊
+// 原數 mod 9 = 新數 mod 9, 所以必定只差 9 的倍數
+// 給定任意正整數，找出位數總和與它相同，而且大於它的最小正整數, 例如 772 => 781 ; 293 => 329;  100 => 1000
+// (abcde)
+// = a*10000+b*1000+c*100+d*10+e
+// = a*(9999+1)+b*(999+1)+c*(99+1)+d*(9+1)+e
+// = (9999a+999b+99c+9d)+(a+b+c+d+e)
+// = 9*(1111a+111b+11c+d)+(a+b+c+d+e)
+
+func MinimumGreaterThan(n int) int {
+	return n
+}
+
+func MinimumGreaterThanGenAnswer(n int) int {
+	res := -1
+	base := checkint(n)
+
+	isEnd := false
+	for !isEnd {
+		n += 9
+		isEnd = (base == checkint(n))
+	}
+	res = n
+	return res
+}
+
+func MinimumGreaterThanV2(data int) int {
+	r := data % 100
+	q := data / 100
+	step := 0
+	if r == 0 {
+		b0 := 100
+		for q%10 == 0 {
+			b0 *= 10
+			q /= 10
+		}
+		s0 := q % 10
+		step = (b0-1)*(10-s0)/9 + 1
+		q /= 10
+		for q%10 == 9 {
+			step += s0
+			s0 *= 10
+			q /= 10
+		}
+	} else if r > 90 {
+		b9X := 10
+		s9X := r % 10
+		for q%10 == 9 {
+			b9X *= 10
+			q /= 10
+		}
+		step = (b9X-1)*s9X/9 + 1
+	} else if r%10 == 0 {
+		sX0 := r / 10
+		step = 11 - sX0
+
+		for q%10 == 9 {
+			step += sX0
+			sX0 *= 10
+			q /= 10
+		}
+	} else {
+		step = 1
+	}
+
+	return data + step*9
+}
+
+func checkint(n int) int {
+	s := strconv.Itoa(n)
+	nums := trans(s)
+	return sum(nums)
+}
+
+func sum(nums []int) int {
+	res := 0
+	for i := range nums {
+		res += nums[i]
+	}
+	return res
+}
+
+func trans(n string) []int {
+	nums := []int{}
+	for i := range n {
+		temp, _ := strconv.Atoi(string(n[i]))
+		nums = append(nums, temp)
+	}
+	return nums
+}

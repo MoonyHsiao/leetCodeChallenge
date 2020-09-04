@@ -20,7 +20,7 @@ func main() {
 	// twoTreeNode()
 	// graph()
 	// intArray()
-	strArray()
+	// strArray()
 	// checkSingleInt()
 	// oneListNode()
 	// compareString()
@@ -30,7 +30,7 @@ func main() {
 	// stackArray()
 	// queueArray()
 	// searchArray()
-	// dp()
+	dp()
 	// islands()
 
 }
@@ -64,18 +64,20 @@ func twoTreeNode() {
 }
 
 func intArray() {
-	// data := []int{3, 2, 4, 5, 4}
-	data := 210
-	res := solveed.NumberOfDistinctIntegers(data)
-	// res := unsolveed.LexicalOrderAns(data)
+	data := []int{-1, -1, -1, -1, 2, 2, -2, -2}
+	target := 3
+
+	res := solveed.CanArrange(data, target)
 	fmt.Printf("res:%v\n", res)
 }
 
 func strArray() {
 	// data := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
-	data := []string{"4", "5", "DUP", "2", "+", "8", "-", "POP"}
-	res := solveed.StrangeCalculator(data)
+	// data := []string{"4", "5", "DUP", "2", "+", "8", "-", "POP"}
+	data := "jbpnbwwd"
+	res := solveed.LengthOfLongestSubstring(data)
 	fmt.Printf("res:%v\n", res)
+
 }
 
 func checkSingleInt() {
@@ -186,13 +188,16 @@ func searchArray() {
 }
 
 func dp() {
-	days := []int{1, 2, 4, 5, 6, 8, 9, 10, 11, 12, 14, 15, 16, 18, 19, 21, 22, 25, 28, 29, 30, 31, 35, 36, 37, 38, 39, 40, 41, 42, 44, 45, 47, 48, 50, 52, 54, 56, 59, 60, 62, 63, 64, 67, 68, 69, 70, 72, 74, 76, 77, 79, 80, 82, 83, 84, 86, 87, 91, 95, 96, 98}
-	costs := []int{5, 20, 86}
+	days := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31}
+	costs := []int{2, 7, 15}
+	// days := []int{1, 4, 6, 7, 8, 10}
+	// costs := []int{2, 7, 15}
 	start := time.Now()
 	res := unsolveed.MincostTickets(days, costs)
 	elapsed := time.Since(start)
 	fmt.Printf("res:%v\n", res)
-	fmt.Printf("Took %s", elapsed)
+	fmt.Printf("Took %s\n", elapsed)
+
 }
 
 func islands() {
@@ -209,4 +214,12 @@ func islands() {
 	res := solveed.NumIslands_DFS(data)
 	fmt.Printf("res:%v\n", res)
 
+}
+
+func intRes() {
+	x := 22003
+	y := 31237
+	z := 123
+	res := unsolveed.CanMeasureWater(x, y, z)
+	fmt.Printf("res:%v\n", res)
 }
