@@ -19,7 +19,7 @@ func main() {
 	// twoListNode()
 	// twoTreeNode()
 	// graph()
-	// intArray()
+	intArray()
 	// strArray()
 	// checkSingleInt()
 	// oneListNode()
@@ -30,7 +30,7 @@ func main() {
 	// stackArray()
 	// queueArray()
 	// searchArray()
-	dp()
+	// dp()
 	// islands()
 
 }
@@ -55,19 +55,19 @@ func graph() {
 
 func twoTreeNode() {
 
-	data := "[1,1,2]"
-	data2 := "[1,1,2]"
+	data := "[1,2,3]"
+	// data2 := "[1,1,2]"
 	listdata := treeNode.CreateTestData(data)
-	listdata2 := treeNode.CreateTestData(data2)
-	fmt.Print(listdata)
-	fmt.Print(listdata2)
+	// listdata2 := treeNode.CreateTestData(data2)
+	res := solveed.InorderTraversal(listdata)
+	fmt.Printf("res:%v\n", res)
+
 }
 
 func intArray() {
-	data := []int{-1, -1, -1, -1, 2, 2, -2, -2}
-	target := 3
-
-	res := solveed.CanArrange(data, target)
+	data := []int{1, 2, 3, 4}
+	// target := -2
+	res := solveed.Subsets(data)
 	fmt.Printf("res:%v\n", res)
 }
 

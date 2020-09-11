@@ -6,7 +6,74 @@ import (
 
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
 )
+
+// https://leetcode.com/problems/n-ary-tree-level-order-traversal/
+func NaryLevelOrder(root *treeNode.NaryNode) [][]int {
+	res := make([][]int, 0)
+	if root == nil {
+		return res
+	}
+	q := &Queue{nodes: make([]*treeNode.NaryNode, 1)}
+	q.Push(root)
+	nums := []int{root.Val}
+	level := 0
+	res[level] = append(res[level], nums...)
+	level++
+	for q.GetLen() != 0 {
+		curr := q.Pop()
+		// fmt.Printf("val:%v\n", curr.Val)
+		temp := curr.Children
+		nums := []int{}
+		for i := range temp {
+			nums = append(nums, temp[i].Val)
+			q.Push(temp[i])
+		}
+
+		if len(res) > level {
+			res[level] = append(res[level], nums...)
+		}
+		level++
+	}
+	return res
+}
+
+type Queue struct {
+	nodes []*treeNode.NaryNode
+	head  int
+	tail  int
+	count int
+}
+
+func (q *Queue) Push(n *treeNode.NaryNode) {
+	if q.head == q.tail && q.count > 0 {
+		nodes := make([]*treeNode.NaryNode, len(q.nodes)*2)
+		copy(nodes, q.nodes[q.head:])
+		copy(nodes[len(q.nodes)-q.head:], q.nodes[:q.head])
+		q.head = 0
+		q.tail = len(q.nodes)
+		q.nodes = nodes
+	}
+	q.nodes[q.tail] = n
+	q.tail = (q.tail + 1) % len(q.nodes)
+	q.count++
+}
+
+// Pop removes and returns a node from the queue in first to last order.
+func (q *Queue) Pop() *treeNode.NaryNode {
+	if q.count == 0 {
+		return nil
+	}
+	node := q.nodes[q.head]
+	q.head = (q.head + 1) % len(q.nodes)
+	q.count--
+	return node
+}
+
+func (q *Queue) GetLen() int {
+	return q.count
+}
 
 // https://leetcode.com/problems/water-and-jug-problem/submissions/
 func CanMeasureWater(x int, y int, z int) bool {

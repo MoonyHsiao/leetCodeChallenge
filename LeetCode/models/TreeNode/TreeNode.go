@@ -88,3 +88,8 @@ func (n *TreeNode) PreOrderTraverse() {
 	n.Left.PreOrderTraverse()
 	n.Right.PreOrderTraverse()
 }
+
+type NaryNode struct {
+	Val      int
+	Children []*NaryNode
+}

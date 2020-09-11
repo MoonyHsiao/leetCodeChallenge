@@ -9,6 +9,7 @@ import (
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/stack"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
 )
 
 func MaxRingProblem(nums []int) int {
@@ -542,4 +543,198 @@ func trans(n string) []int {
 		nums = append(nums, temp)
 	}
 	return nums
+}
+
+func ThreeSumClosest(nums []int, target int) int {
+	diff := models.MaxInt
+	res := 0
+	sorted := sort.MergeSort(nums)
+	size := len(nums)
+	for i := 0; i < size; i++ {
+		if i+2 == size {
+			break
+		}
+		left := i + 1
+		right := size - 1
+		sums := sorted[i] + sorted[left] + sorted[right]
+		tempDiff := target - sums
+		if models.Abs(diff) > models.Abs(tempDiff) {
+			diff = models.Abs(tempDiff)
+			res = sums
+		}
+		for right-left > 1 {
+			if tempDiff > 0 {
+				left++
+			} else if tempDiff == 0 {
+				break
+			} else {
+				right--
+			}
+			sums = sorted[i] + sorted[left] + sorted[right]
+			tempDiff = target - sums
+			if models.Abs(diff) > models.Abs(tempDiff) {
+				diff = models.Abs(tempDiff)
+				res = sums
+			}
+		}
+
+		if tempDiff == 0 {
+			res = sums
+			break
+		}
+	}
+
+	return res
+}
+
+func ThreeSum(nums []int) [][]int {
+	type sets struct {
+		a, b, c int
+	}
+	obstaclesMap := make(map[sets]bool)
+	res := [][]int{}
+	if len(nums) < 3 {
+		return res
+	}
+	sorted := sort.MergeSort(nums)
+	size := len(nums)
+	for i := 0; i < size; i++ {
+		if i+2 == size {
+			break
+		}
+		left := i + 1
+		right := size - 1
+		for left < right {
+			sums := sorted[i] + sorted[left] + sorted[right]
+			if sums > 0 {
+				right--
+			} else if sums == 0 {
+				temp := sets{sorted[i], sorted[left], sorted[right]}
+				if !obstaclesMap[temp] {
+					obstaclesMap[temp] = true
+					temp := []int{sorted[i], sorted[left], sorted[right]}
+					res = append(res, temp)
+				}
+				left++
+				right--
+			} else {
+				left++
+			}
+		}
+	}
+	return res
+}
+
+func InorderTraversal(root *treeNode.TreeNode) []int {
+	res := []int{}
+	if root == nil {
+		return res
+	}
+	inOrderTraverse(root, &res)
+	return res
+}
+
+func inOrderTraverse(node *treeNode.TreeNode, nums *[]int) {
+	if node == nil {
+		return
+	}
+	inOrderTraverse(node.Left, nums)
+	(*nums) = append((*nums), node.Val)
+	inOrderTraverse(node.Right, nums)
+}
+
+func MyPow(x float64, n int) float64 {
+	if n == 0 {
+		return 1
+	}
+	temp := MyPow(x, n/2)
+	if n%2 == 0 {
+		return temp * temp
+	} else {
+		if n > 0 {
+			return x * temp * temp
+		} else {
+			return temp * temp / x
+		}
+	}
+}
+
+func NaryPreorder(root *treeNode.NaryNode) []int {
+	res := []int{}
+	if root == nil {
+		return res
+	}
+	naryPreOrderTraverse(root, &res)
+	return res
+}
+
+func naryPreOrderTraverse(node *treeNode.NaryNode, nums *[]int) {
+	if node == nil {
+		return
+	}
+	(*nums) = append((*nums), node.Val)
+	temp := node.Children
+	for i := range temp {
+		naryPreOrderTraverse(temp[i], nums)
+	}
+}
+
+func NaryPostorder(root *treeNode.NaryNode) []int {
+	res := []int{}
+	if root == nil {
+		return res
+	}
+	naryPostOrderTraverse(root, &res)
+	return res
+}
+
+func naryPostOrderTraverse(node *treeNode.NaryNode, nums *[]int) {
+	if node == nil {
+		return
+	}
+	temp := node.Children
+	for i := range temp {
+		naryPostOrderTraverse(temp[i], nums)
+	}
+	(*nums) = append((*nums), node.Val)
+}
+
+func BinaryPreOrderTraversal(root *treeNode.TreeNode) []int {
+	res := []int{}
+	if root == nil {
+		return res
+	}
+	binaryPreOrderTraverse(root, &res)
+	return res
+}
+
+func binaryPreOrderTraverse(node *treeNode.TreeNode, nums *[]int) {
+	if node == nil {
+		return
+	}
+	(*nums) = append((*nums), node.Val)
+	binaryPreOrderTraverse(node.Left, nums)
+	binaryPreOrderTraverse(node.Right, nums)
+}
+
+func Subsets(nums []int) [][]int {
+	res := [][]int{}
+	lens := len(nums)
+	size := int(MyPow(2, lens))
+	formatStr := fmt.Sprintf("%v%v%v\n", "%0", lens, "b")
+	size--
+	temp := []int{}
+	res = append(res, temp)
+	for size > 0 {
+		str := fmt.Sprintf(formatStr, size)
+		temp := []int{}
+		for i := range str {
+			if str[i] == '1' {
+				temp = append(temp, nums[i])
+			}
+		}
+		res = append(res, temp)
+		size--
+	}
+	return res
 }
