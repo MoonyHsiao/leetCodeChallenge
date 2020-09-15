@@ -17,9 +17,9 @@ import (
 
 func main() {
 	// twoListNode()
-	// twoTreeNode()
+	twoTreeNode()
 	// graph()
-	intArray()
+	// intArray()
 	// strArray()
 	// checkSingleInt()
 	// oneListNode()
@@ -36,11 +36,12 @@ func main() {
 }
 
 func twoListNode() {
-	data := "[2,6,4]"
-	data2 := "[1,5]"
+	data := "[1]"
+	// data2 := "[1,5]"
+	target := 1
 	listdata := listNode.CreateTestData(data)
-	listdata2 := listNode.CreateTestData(data2)
-	res := solveed.GetIntersectionNode(listdata, listdata2)
+	// listdata2 := listNode.CreateTestData(data2)
+	res := solveed.RemoveElements(listdata, target)
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -55,11 +56,11 @@ func graph() {
 
 func twoTreeNode() {
 
-	data := "[1,2,3]"
+	data := "[0,-1]"
 	// data2 := "[1,1,2]"
 	listdata := treeNode.CreateTestData(data)
 	// listdata2 := treeNode.CreateTestData(data2)
-	res := solveed.InorderTraversal(listdata)
+	res := solveed.LargestValuesNotPointer(listdata)
 	fmt.Printf("res:%v\n", res)
 
 }

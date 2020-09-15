@@ -7,6 +7,7 @@ import (
 
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/dpProblem"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/stack"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
@@ -737,4 +738,126 @@ func Subsets(nums []int) [][]int {
 		size--
 	}
 	return res
+}
+
+func FindMinAndMax(s []int) (ans1, ans2 int) {
+	min := models.MaxInt
+	max := models.MinInt
+	for i := range s {
+		if s[i] > max {
+			max = s[i]
+		}
+		if s[i] < min {
+			min = s[i]
+		}
+
+	}
+	return min, max
+}
+
+func LargestValues(root *treeNode.TreeNode) []int {
+	res := []int{}
+	if root == nil {
+		return res
+	}
+	largestValuesDFS(root, 0, &res)
+	return res
+}
+
+func largestValuesDFS(root *treeNode.TreeNode, level int, res *[]int) {
+	if root == nil {
+		return
+	}
+	if len(*res) <= level {
+		(*res) = append((*res), models.MinInt)
+	}
+	(*res)[level] = models.Max((*res)[level], root.Val)
+	if root.Left != nil {
+		largestValuesDFS(root.Left, level+1, res)
+	}
+	if root.Right != nil {
+		largestValuesDFS(root.Right, level+1, res)
+	}
+
+}
+
+func LargestValuesNotPointer(root *treeNode.TreeNode) []int {
+	res := []int{}
+	if root == nil {
+		return res
+	}
+	res = largestValuesDFS_NotPointer(root, 0, res)
+	return res
+}
+
+func largestValuesDFS_NotPointer(root *treeNode.TreeNode, level int, cur []int) []int {
+	if root == nil {
+		return cur
+	}
+	if len(cur) <= level {
+		cur = append(cur, root.Val)
+	} else {
+		cur[level] = models.Max(cur[level], root.Val)
+	}
+	cur = largestValuesDFS_NotPointer(root.Left, level+1, cur)
+	cur = largestValuesDFS_NotPointer(root.Right, level+1, cur)
+	return cur
+}
+
+func RemoveElements(head *listNode.ListNode, val int) *listNode.ListNode {
+
+	for head != nil && head.Val == val {
+		head = head.Next
+	}
+	first := head
+
+	for head != nil && head.Next != nil {
+		if head.Next.Val == val {
+			head.Next = head.Next.Next
+		} else {
+			head = head.Next
+		}
+	}
+	return first
+}
+
+func LargestValues_wu(root *treeNode.TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+
+	var ans []int
+	var checkNodes []*treeNode.TreeNode
+	checkNodes = append(checkNodes, root)
+	for {
+		if len(checkNodes) == 0 {
+			break
+		}
+		var values []int
+		var tmp []*treeNode.TreeNode
+		for _, n := range checkNodes {
+			if n != nil {
+				values = append(values, n.Val)
+				if n.Left != nil {
+					tmp = append(tmp, n.Left)
+				}
+				if n.Right != nil {
+					tmp = append(tmp, n.Right)
+				}
+			}
+		}
+		ans = append(ans, max_wu(values))
+		checkNodes = tmp
+	}
+	return ans
+}
+
+func max_wu(values []int) int {
+	m := values[0]
+	for i := 1; i < len(values); i++ {
+		if m < values[i] {
+			m = values[i]
+		}
+	}
+	return m
 }
