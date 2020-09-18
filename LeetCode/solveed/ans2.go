@@ -861,3 +861,143 @@ func max_wu(values []int) int {
 	}
 	return m
 }
+
+func LetterCombinations(digits string) []string {
+	res := []string{}
+	numSet := [][]string{}
+	num2 := []string{"a", "b", "c"}
+	num3 := []string{"d", "e", "f"}
+	num4 := []string{"g", "h", "i"}
+	num5 := []string{"j", "k", "l"}
+	num6 := []string{"m", "n", "o"}
+	num7 := []string{"p", "q", "r", "s"}
+	num8 := []string{"t", "u", "v"}
+	num9 := []string{"w", "x", "y", "z"}
+	numSet = append(numSet, num2)
+	numSet = append(numSet, num3)
+	numSet = append(numSet, num4)
+	numSet = append(numSet, num5)
+	numSet = append(numSet, num6)
+	numSet = append(numSet, num7)
+	numSet = append(numSet, num8)
+	numSet = append(numSet, num9)
+	size := len(digits) - 1
+	for i := size; i >= 0; i-- {
+		temp, _ := strconv.Atoi(string(digits[i]))
+		if len(res) == 0 {
+			res = numSet[temp-2]
+			continue
+		}
+		tempSet := numSet[temp-2]
+		newSet := []string{}
+		for j := range tempSet {
+			first := tempSet[j]
+			for k := range res {
+				temp := first + res[k]
+				newSet = append(newSet, temp)
+			}
+		}
+		res = newSet
+
+	}
+	return res
+}
+
+func IsValidSudoku(board [][]byte) bool {
+	// jiugonggeBoard := [][]byte{}
+	for i := 0; i < 9; i += 3 {
+		for j := 0; j < 9; j += 3 {
+			temp := []byte{}
+			temp = append(temp, board[i][j+0])
+			temp = append(temp, board[i][j+1])
+			temp = append(temp, board[i][j+2])
+			temp = append(temp, board[i+1][j+0])
+			temp = append(temp, board[i+1][j+1])
+			temp = append(temp, board[i+1][j+2])
+			temp = append(temp, board[i+2][j+0])
+			temp = append(temp, board[i+2][j+1])
+			temp = append(temp, board[i+2][j+2])
+			// jiugonggeBoard = append(jiugonggeBoard, temp)
+			res := isValidSudokuCheckRepeat(temp)
+			if !res {
+				return false
+			}
+		}
+	}
+	//直 verticalBoard
+	// verticalBoard := [][]byte{}
+	for c := range board[0] {
+		temp := []byte{}
+		for r := range board {
+			// fmt.Printf("[%d,%d] %5v  ", c, r, board[r][c])
+			temp = append(temp, board[r][c])
+		}
+		// verticalBoard = append(verticalBoard, temp)
+		res := isValidSudokuCheckRepeat(temp)
+		if !res {
+			return false
+		}
+	}
+	for i := range board {
+		tempH := board[i]
+		// tempV := verticalBoard[i]
+		// tempJ := jiugonggeBoard[i]
+		res := isValidSudokuCheckRepeat(tempH)
+		if !res {
+			return false
+		}
+	}
+	return true
+}
+
+func isValidSudokuCheckRepeat(data []byte) bool {
+	obstaclesMap := make(map[byte]bool)
+	for i := range data {
+		temp := data[i]
+		if temp == '.' {
+			continue
+		}
+		if !obstaclesMap[temp] {
+			obstaclesMap[temp] = true
+		} else {
+			return false
+		}
+	}
+	return true
+}
+
+func MinPathSum(grid [][]int) int {
+	boundaryWidth := len(grid[0])
+	boundaryHigh := len(grid)
+	mark := models.GenEmptyZeroSizeGrid(boundaryWidth, boundaryHigh)
+	mark[0][0] = grid[0][0]
+	for i := 0; i < boundaryHigh; i++ {
+		for j := 0; j < boundaryWidth; j++ {
+			if mark[i][j] == 0 && i == 0 && j != 0 {
+				mark[i][j] = grid[i][j] + mark[i][j-1]
+			} else if mark[i][j] == 0 && j == 0 && i != 0 {
+				mark[i][j] = grid[i][j] + mark[i-1][j]
+			} else if mark[i][j] == 0 && j != 0 && i != 0 {
+				temp := models.Min(mark[i-1][j], mark[i][j-1])
+				mark[i][j] = grid[i][j] + temp
+			}
+		}
+	}
+	return mark[boundaryHigh-1][boundaryWidth-1]
+}
+
+func ClimbStairs(n int) int {
+	prev2Step := 1
+	prev1Step := 2
+	currStep := 0
+	if n <= 2 {
+		return n
+	}
+	for n-2 > 0 {
+		currStep = prev2Step + prev1Step
+		prev2Step = prev1Step
+		prev1Step = currStep
+		n--
+	}
+	return currStep
+}

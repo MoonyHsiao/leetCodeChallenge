@@ -129,3 +129,38 @@ func Abs(n int) int {
 func MinTriple(a, b, c int) int {
 	return Min(Min(a, b), Min(a, c))
 }
+
+func twoArrayVANDH(board [][]byte) bool {
+	//直 verticalBoard
+	verticalBoard := [][]byte{}
+	for c := range board[0] {
+		temp := []byte{}
+		for r := range board {
+			// fmt.Printf("[%d,%d] %5v  ", c, r, board[r][c])
+			temp = append(temp, board[r][c])
+		}
+		verticalBoard = append(verticalBoard, temp)
+	}
+	// for i := range board {
+	// 	tempH := board[i]
+	// 	tempV := verticalBoard[i]
+	// 	res := isValidSudokuCheckRepeat(tempH) && isValidSudokuCheckRepeat(tempV)
+	// 	if !res {
+	// 		return false
+	// 	}
+	// }
+
+	return true
+}
+
+func GenEmptyZeroSizeGrid(boundaryWidth, boundaryHigh int) [][]int {
+	sets := make([][]int, boundaryHigh)
+	for i := 0; i < boundaryHigh; i++ {
+		temp := []int{}
+		for j := 0; j < boundaryWidth; j++ {
+			temp = append(temp, 0)
+		}
+		sets[i] = temp
+	}
+	return sets
+}

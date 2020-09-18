@@ -16,11 +16,12 @@ import (
 )
 
 func main() {
-	// twoListNode()
-	twoTreeNode()
+	twoListNode()
+	// twoTreeNode()
 	// graph()
 	// intArray()
 	// strArray()
+	// byteArray()
 	// checkSingleInt()
 	// oneListNode()
 	// compareString()
@@ -32,16 +33,15 @@ func main() {
 	// searchArray()
 	// dp()
 	// islands()
-
 }
 
 func twoListNode() {
-	data := "[1]"
+	data := "[1,2,2,1]"
 	// data2 := "[1,5]"
-	target := 1
+	// target := 1
 	listdata := listNode.CreateTestData(data)
 	// listdata2 := listNode.CreateTestData(data2)
-	res := solveed.RemoveElements(listdata, target)
+	res := solveed.IsPalindromeLinkList(listdata)
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -66,17 +66,45 @@ func twoTreeNode() {
 }
 
 func intArray() {
-	data := []int{1, 2, 3, 4}
+	// data := []int{5, 5, 5, 10, 20}
+	var data uint32
+	data = 32
 	// target := -2
-	res := solveed.Subsets(data)
+	res := solveed.ReverseBits(data)
 	fmt.Printf("res:%v\n", res)
 }
 
 func strArray() {
 	// data := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
 	// data := []string{"4", "5", "DUP", "2", "+", "8", "-", "POP"}
-	data := "jbpnbwwd"
-	res := solveed.LengthOfLongestSubstring(data)
+	data := "172.16.204.1"
+	// data := "20EE:Fb8:85a3:0:0:8A2E:0370:7334:12"
+	res := solveed.ValidIPAddress(data)
+	fmt.Printf("res:%v\n", res)
+
+}
+
+func byteArray() {
+	data := [][]byte{}
+	obstacle1 := []byte{'5', '3', '.', '.', '7', '.', '.', '.', '.'}
+	obstacle2 := []byte{'6', '.', '.', '1', '9', '5', '.', '.', '.'}
+	obstacle3 := []byte{'.', '9', '8', '.', '.', '.', '.', '6', '.'}
+	obstacle4 := []byte{'8', '.', '.', '.', '6', '.', '.', '.', '3'}
+	obstacle5 := []byte{'4', '.', '.', '8', '.', '3', '.', '.', '1'}
+	obstacle6 := []byte{'7', '.', '.', '.', '2', '.', '.', '.', '6'}
+	obstacle7 := []byte{'.', '6', '.', '.', '.', '.', '2', '8', '.'}
+	obstacle8 := []byte{'.', '.', '.', '4', '1', '9', '.', '.', '5'}
+	obstacle9 := []byte{'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+	data = append(data, obstacle1)
+	data = append(data, obstacle2)
+	data = append(data, obstacle3)
+	data = append(data, obstacle4)
+	data = append(data, obstacle5)
+	data = append(data, obstacle6)
+	data = append(data, obstacle7)
+	data = append(data, obstacle8)
+	data = append(data, obstacle9)
+	res := solveed.IsValidSudoku(data)
 	fmt.Printf("res:%v\n", res)
 
 }
@@ -202,17 +230,14 @@ func dp() {
 }
 
 func islands() {
-
-	data := [][]byte{}
-	obstacle1 := []byte{'1', '1', '1', '1', '0'}
-	obstacle2 := []byte{'1', '1', '0', '1', '0'}
-	obstacle3 := []byte{'1', '1', '0', '0', '0'}
-	obstacle4 := []byte{'0', '0', '0', '0', '0'}
+	data := [][]int{}
+	obstacle1 := []int{1, 2}
+	obstacle2 := []int{5, 6}
+	obstacle3 := []int{1, 1}
 	data = append(data, obstacle1)
 	data = append(data, obstacle2)
 	data = append(data, obstacle3)
-	data = append(data, obstacle4)
-	res := solveed.NumIslands_DFS(data)
+	res := solveed.MinPathSum(data)
 	fmt.Printf("res:%v\n", res)
 
 }

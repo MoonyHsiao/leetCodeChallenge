@@ -9,6 +9,18 @@ import (
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
 )
 
+// https://leetcode.com/problems/decode-ways/
+func NumDecodings(s string) int {
+	res := 0
+	for i := range s {
+		asciiValue, _ := strconv.Atoi(string(s[i]))
+		temp := string(rune(asciiValue + 64))
+
+		fmt.Printf("temp:%v\n", temp)
+	}
+	return res
+}
+
 // https://leetcode.com/problems/n-ary-tree-level-order-traversal/
 func NaryLevelOrder(root *treeNode.NaryNode) [][]int {
 	res := make([][]int, 0)
