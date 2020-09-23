@@ -15,33 +15,35 @@ import (
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/unsolveed"
 )
 
+// https://golang.org/pkg/fmt/
+
 func main() {
-	twoListNode()
-	// twoTreeNode()
+	// listNodeType()
+	treeNodeType()
 	// graph()
 	// intArray()
 	// strArray()
 	// byteArray()
 	// checkSingleInt()
-	// oneListNode()
 	// compareString()
 	// testRobot()
-	// singleTreeNode()
 	// sortArray()
 	// stackArray()
 	// queueArray()
 	// searchArray()
 	// dp()
 	// islands()
+	// models.LearnBits()
+
 }
 
-func twoListNode() {
-	data := "[1,2,2,1]"
+func listNodeType() {
+	data := "[3,5]"
 	// data2 := "[1,5]"
 	// target := 1
 	listdata := listNode.CreateTestData(data)
 	// listdata2 := listNode.CreateTestData(data2)
-	res := solveed.IsPalindromeLinkList(listdata)
+	res := unsolveed.ReverseBetween(listdata, 1, 2)
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -54,8 +56,7 @@ func graph() {
 	fmt.Printf("res:%v\n", res)
 }
 
-func twoTreeNode() {
-
+func treeNodeType() {
 	data := "[0,-1]"
 	// data2 := "[1,1,2]"
 	listdata := treeNode.CreateTestData(data)
@@ -66,11 +67,10 @@ func twoTreeNode() {
 }
 
 func intArray() {
-	// data := []int{5, 5, 5, 10, 20}
-	var data uint32
-	data = 32
-	// target := -2
-	res := solveed.ReverseBits(data)
+	// data := []int{1, 3}
+	data := 5
+	// target := 3
+	res := solveed.CountBits(data)
 	fmt.Printf("res:%v\n", res)
 }
 
@@ -115,13 +115,6 @@ func checkSingleInt() {
 	fmt.Printf("res:%v\n", res)
 }
 
-func oneListNode() {
-	data := "[1,2,3,4,5]"
-	listdata := listNode.CreateTestData(data)
-	res := solveed.ReverseList(listdata)
-	fmt.Printf("res:%v\n", res)
-}
-
 func compareString() {
 	data1 := "AAAAA"
 	data2 := "BB"
@@ -153,13 +146,6 @@ func testRobot() {
 	obstacles = append(obstacles, obstacle9)
 	obstacles = append(obstacles, obstacle10)
 	res := solveed.RobotSim(commands, obstacles)
-	fmt.Printf("res:%v\n", res)
-}
-
-func singleTreeNode() {
-	data := "[4,2,7,1,3,6,9]"
-	listdata := treeNode.CreateTestData(data)
-	res := solveed.InvertTree(listdata)
 	fmt.Printf("res:%v\n", res)
 }
 

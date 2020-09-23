@@ -1,9 +1,11 @@
 package solveed
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
 )
@@ -79,6 +81,7 @@ func LemonadeChange(bills []int) bool {
 
 func ReverseBits(num uint32) uint32 {
 	var res uint32 = 0
+
 	for i := 0; i < 32; i++ {
 		res = (res << 1) ^ (num & 1)
 		num >>= 1
@@ -175,4 +178,103 @@ func IsPalindromeLinkList(head *listNode.ListNode) bool {
 		back = sets[backIndex]
 	}
 	return true
+}
+
+func MaxArea(height []int) int {
+	max := 0
+	size := len(height)
+	for i := 0; i < size; i++ {
+		for j := i; j < size; j++ {
+			temp := models.Min(height[i], height[j]) * (j - i)
+			max = models.Max(max, temp)
+		}
+	}
+	return max
+}
+
+func GenerateParenthesis(n int) []string {
+	res := []string{}
+	generateParenthesisBacktrack(&res, "", 0, 0, n)
+	return res
+}
+
+func generateParenthesisBacktrack(ans *[]string, cur string, open, close, max int) {
+	if len(cur) == max*2 {
+		(*ans) = append((*ans), cur)
+		return
+	}
+	if open < max {
+		generateParenthesisBacktrack(ans, cur+"(", open+1, close, max)
+	}
+	if close < open {
+		generateParenthesisBacktrack(ans, cur+")", open, close+1, max)
+	}
+}
+
+// Search in Rotated Sorted Array
+func Search(nums []int, target int) int {
+	if len(nums) == 0 {
+		return -1
+	}
+	if len(nums) == 1 {
+		if nums[0] == target {
+			return 0
+		} else {
+			return -1
+		}
+	}
+	res := -1
+	low := 0
+	high := len(nums) - 1
+	for low <= high {
+		mid := (low + high) / 2
+		midValue := nums[mid]
+		if midValue == target {
+			res = mid
+			break
+		}
+		if nums[low] <= midValue {
+			if target >= nums[low] && target <= midValue {
+				high = mid - 1
+			} else {
+				low = mid + 1
+			}
+		} else {
+			if target > midValue && target <= nums[high] {
+				low = mid + 1
+			} else {
+				high = mid - 1
+			}
+		}
+	}
+	return res
+}
+
+func ReverseListNode(head *listNode.ListNode) *listNode.ListNode {
+	if head == nil || head.Next == nil {
+		return nil
+	}
+	var previous *listNode.ListNode
+	first := head
+	current := head
+	preceding := head.Next
+	for preceding != nil {
+		current.Next = previous
+		previous = current
+		current = preceding
+		preceding = preceding.Next
+	}
+	current.Next = previous
+	first = current
+	return first
+}
+
+func CountBits(num int) []int {
+	res := []int{}
+	for i := 0; i <= num; i++ {
+		numStr := fmt.Sprintf("%032b", i)
+		count := strings.Count(numStr, "1")
+		res = append(res, count)
+	}
+	return res
 }

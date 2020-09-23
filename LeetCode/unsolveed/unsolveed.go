@@ -5,9 +5,45 @@ import (
 	"strconv"
 
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
 )
+
+// https://leetcode.com/problems/reverse-linked-list-ii/submissions/
+func ReverseBetween(head *listNode.ListNode, m int, n int) *listNode.ListNode {
+	if head == nil {
+		return nil
+	}
+	if head.Next == nil || m == n {
+		return head
+	}
+
+	first := head
+	count := 1
+	for count < m {
+		head = head.Next
+		count++
+	}
+	var previous *listNode.ListNode
+	current := head
+	preceding := head.Next
+	for preceding != nil && count < n {
+		current.Next = previous
+		previous = current
+		current = preceding
+		preceding = preceding.Next
+		count++
+	}
+	current.Next = previous
+	first.Next = current
+	travelNode := first
+	for travelNode.Next != nil {
+		travelNode = travelNode.Next
+	}
+	travelNode.Next = preceding
+	return first
+}
 
 // https://leetcode.com/problems/decode-ways/
 func NumDecodings(s string) int {

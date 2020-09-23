@@ -130,8 +130,7 @@ func MinTriple(a, b, c int) int {
 	return Min(Min(a, b), Min(a, c))
 }
 
-func twoArrayVANDH(board [][]byte) bool {
-	//直 verticalBoard
+func TransVerticalBoard(board [][]byte) [][]byte {
 	verticalBoard := [][]byte{}
 	for c := range board[0] {
 		temp := []byte{}
@@ -141,16 +140,9 @@ func twoArrayVANDH(board [][]byte) bool {
 		}
 		verticalBoard = append(verticalBoard, temp)
 	}
-	// for i := range board {
-	// 	tempH := board[i]
-	// 	tempV := verticalBoard[i]
-	// 	res := isValidSudokuCheckRepeat(tempH) && isValidSudokuCheckRepeat(tempV)
-	// 	if !res {
-	// 		return false
-	// 	}
-	// }
-
-	return true
+	// fmt.Printf("origin:%v\n", board)
+	// fmt.Printf("trans:%v\n", verticalBoard)
+	return verticalBoard
 }
 
 func GenEmptyZeroSizeGrid(boundaryWidth, boundaryHigh int) [][]int {
@@ -163,4 +155,36 @@ func GenEmptyZeroSizeGrid(boundaryWidth, boundaryHigh int) [][]int {
 		sets[i] = temp
 	}
 	return sets
+}
+
+func LearnBits() {
+	// i >>= 1
+	// <==>
+	// tmp := i >> 1
+	// i = tmp
+	// Bitwise Operators
+	// https://michaelchen.tech/golang-programming/operator/
+	// https://stackoverflow.com/questions/32933333/what-does-the-operator-do-in-golang
+	var res uint32 = 0
+	var num uint32 = 10
+	lens := 4
+	formatStr := fmt.Sprintf("%v%v%v", "%0", lens, "b")
+	resStr := fmt.Sprintf(formatStr, res)
+	numStr := fmt.Sprintf(formatStr, num)
+	fmt.Printf("=====in for res:%v ,num:%v=====\n", res, num)
+	for i := 0; i < lens; i++ {
+		resStr = fmt.Sprintf(formatStr, res)
+		numStr = fmt.Sprintf(formatStr, num)
+		fmt.Printf("ith:%v before res:%b, num in base 2:%b\n", i, res, num)
+		fmt.Printf("ith:%v before res:%v, num in use fmt base 2:%v\n", i, resStr, numStr)
+		res = (res << 1) ^ (num & 1)
+		num >>= 1
+		resStr = fmt.Sprintf(formatStr, res)
+		numStr = fmt.Sprintf(formatStr, num)
+		fmt.Printf("ith:%v after res:%b, num in base 2:%b\n", i, res, num)
+		fmt.Printf("ith:%v after res:%v, num in use fmt base 2:%v\n", i, resStr, numStr)
+	}
+	resStr = fmt.Sprintf(formatStr, res)
+	numStr = fmt.Sprintf(formatStr, num)
+	fmt.Printf("=====out for res:%v ,num:%v=====\n", res, num)
 }
