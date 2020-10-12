@@ -8,6 +8,7 @@ import (
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/listNode"
 	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/sort"
+	"github.com/MoonyHsiao/leetCodeChallenge/LeetCode/models/treeNode"
 )
 
 func IsPerfectSquare(num int) bool {
@@ -277,4 +278,145 @@ func CountBits(num int) []int {
 		res = append(res, count)
 	}
 	return res
+}
+
+func LowestCommonAncestor(root, p, q *treeNode.TreeNode) *treeNode.TreeNode {
+	if root == nil {
+		return nil
+	}
+	res := root
+	if root.Val == p.Val || root.Val == q.Val {
+		return res
+	}
+
+	if (root.Val > p.Val && root.Val < q.Val) || (root.Val < p.Val && root.Val > q.Val) {
+		return res
+	}
+
+	if root.Val > p.Val && root.Val > q.Val {
+		res = LowestCommonAncestor(root.Left, p, q)
+	}
+
+	if root.Val < p.Val && root.Val < q.Val {
+		res = LowestCommonAncestor(root.Right, p, q)
+	}
+
+	return res
+}
+
+func BinaryTreePaths(root *treeNode.TreeNode) []string {
+	res := []string{}
+	m := make(map[string]bool)
+	if root != nil {
+		str := ""
+		binaryTreePath(root, str, &m)
+	}
+	for k, _ := range m {
+		res = append(res, k)
+	}
+	return res
+}
+
+func binaryTreePath(root *treeNode.TreeNode, str string, m *map[string]bool) {
+	if root == nil {
+		return
+	}
+	res := fmt.Sprintf("%v->%v", str, root.Val)
+	if str == "" {
+		res = fmt.Sprintf("%v", root.Val)
+	}
+	if root.Right == nil && root.Left == nil {
+		_, ok := (*m)[res]
+		if !ok {
+			(*m)[res] = true
+		}
+		return
+	}
+	binaryTreePath(root.Left, res, m)
+	binaryTreePath(root.Right, res, m)
+}
+
+func ContainsNearbyDuplicate_Struct(nums []int, k int) bool {
+	type Sets struct {
+		Data []int
+	}
+
+	m := make(map[int]Sets)
+	for i := 0; i < len(nums); i++ {
+		v, ok := m[nums[i]]
+		if !ok {
+			temp := new(Sets)
+			temp.Data = append(temp.Data, i)
+			m[nums[i]] = *temp
+		} else {
+			v.Data = append(v.Data, i)
+			m[nums[i]] = v
+		}
+	}
+
+	for _, v := range m {
+		temp := v.Data
+		if len(temp) > 1 {
+			for i := 0; i < len(temp)-1; i++ {
+				if temp[i+1]-temp[i] <= k {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+func ContainsNearbyDuplicate(nums []int, k int) bool {
+
+	res := false
+	m := make(map[int][]int)
+	for i := 0; i < len(nums); i++ {
+
+		v, _ := m[nums[i]]
+
+		v = append(v, i)
+		m[nums[i]] = v
+	}
+
+	for _, v := range m {
+		if len(v) > 1 {
+			for i := 0; i < len(v)-1; i++ {
+				if v[i+1]-v[i] <= k {
+					return true
+				}
+			}
+		}
+	}
+
+	return res
+
+}
+
+func AddDigits(num int) int {
+	for num/10 > 0 {
+		num = GetModTen(num)
+	}
+	return num
+}
+
+func GetModTen(num int) int {
+	res := 0
+	for num%10 > 0 || num/10 > 0 {
+		res += num % 10
+		num = num / 10
+	}
+	return res
+}
+
+func MissingNumber(nums []int) int {
+	size := len(nums)
+	sorted := sort.MergeSort(nums)
+	max := sorted[size-1]
+	for i := 0; i < max; i++ {
+		if sorted[i] != i {
+			return i
+		}
+	}
+	return max + 1
 }

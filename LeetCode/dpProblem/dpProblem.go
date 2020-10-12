@@ -16,11 +16,14 @@ func maxDivide(a, b int) int {
 	return a
 }
 
-func isUgly(no int) bool {
-	no = maxDivide(no, 2)
-	no = maxDivide(no, 3)
-	no = maxDivide(no, 5)
-	return (no == 1)
+func isUgly(num int) bool {
+	if num == 0 {
+		return false
+	}
+	num = maxDivide(num, 2)
+	num = maxDivide(num, 3)
+	num = maxDivide(num, 5)
+	return (num == 1)
 }
 
 func GetNthUglyNo(n int) int {

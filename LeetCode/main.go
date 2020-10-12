@@ -19,9 +19,9 @@ import (
 
 func main() {
 	// listNodeType()
-	treeNodeType()
+	// treeNodeType()
 	// graph()
-	// intArray()
+	intArray()
 	// strArray()
 	// byteArray()
 	// checkSingleInt()
@@ -57,20 +57,21 @@ func graph() {
 }
 
 func treeNodeType() {
-	data := "[0,-1]"
+	data := "[1,2,3,5]"
+	// data := "[1]"
 	// data2 := "[1,1,2]"
 	listdata := treeNode.CreateTestData(data)
 	// listdata2 := treeNode.CreateTestData(data2)
-	res := solveed.LargestValuesNotPointer(listdata)
+	res := solveed.BinaryTreePaths(listdata)
 	fmt.Printf("res:%v\n", res)
 
 }
 
 func intArray() {
-	// data := []int{1, 3}
-	data := 5
-	// target := 3
-	res := solveed.CountBits(data)
+	data := []int{3, 0, 1}
+	// data := 38
+	// target := 1
+	res := solveed.MissingNumber(data)
 	fmt.Printf("res:%v\n", res)
 }
 
